@@ -4,7 +4,9 @@
 
 The R package **SDMSelect** is for species distribution modeling (SDM). It uses a forward model selection with cross-validation to select covariates and model specifications that allow for best predictions. This selection is not specifically for SDM. Results can then be used for mapping predicted species distribution and uncertainty of prediction. 
 
-![Distribution of probability of presence with SDMSelect library on Rstat](https://github.com/statnmap/SDMSelect/blob/master/img/ProbaOfPresence.png)
+|![Distribution of probability of presence with SDMSelect library on Rstat](https://github.com/statnmap/SDMSelect/blob/master/img/ProbaOfPresence.png)|
+|:---:|
+|Distribution of probability of presence with SDMSelect library on Rstat|
 
 # How to cite
 Please give credit where credit is due and cite R and R packages when you use them for data analysis. To cite `SDMSelect` properly, call the R built-in command `citation("SDMSelect")`.
@@ -43,13 +45,20 @@ The final model retained by the user can then be analysed (residual analysis, va
 A particular attention has been given to assessment of uncertainty. Each prediction of a model is given with a standard error associated. This standard errors have been used to estimate possible minimum and maximum distributions of species (through estimations of quantiles). 
 
 
-![Distribution of minimum (quantile 5%) and maximum (quantile 95%) of probabilities of presence with SDMSelect library on Rstat](https://github.com/statnmap/SDMSelect/blob/master/img/MinMaxProbaOfPresence.png)
-
+|![Distribution of minimum (quantile 5%) and maximum (quantile 95%) of probabilities of presence with SDMSelect library on Rstat](https://github.com/statnmap/SDMSelect/blob/master/img/MinMaxProbaOfPresence.png)|
+|:---:|
+|Distribution of minimum (quantile 5%) and maximum (quantile 95%) of probabilities of presence with SDMSelect library on Rstat|
 
 Concerning presence-absence data, the estimation of probability of presence is not enough. The balance between presences and absences in data may conduct to biased predictions. The best threshold value to classify a probability of presence in presence or absence is here explored in more details. Map of probability to be over the threshold value is calculated.
 
-![Comparison of predictions against observations in a presence-absence data model and thresholds values with SDMSelect library on Rstat](https://github.com/statnmap/SDMSelect/blob/master/img/CompObsPred.png)
-![Distribution of probabilities to be over the best threshold value separating presences from absences with SDMSelect library on Rstat](https://github.com/statnmap/SDMSelect/blob/master/img/ProbaOverThd.png)
+|![Comparison of predictions against observations in a presence-absence data model and thresholds values with SDMSelect library on Rstat](https://github.com/statnmap/SDMSelect/blob/master/img/CompObsPred.png)|
+|:---:|
+|Comparison of predictions against observations in a presence-absence data model and thresholds values with SDMSelect library on Rstat|
+
+
+|![Distribution of probabilities to be over the best threshold value separating presences from absences with SDMSelect library on Rstat](https://github.com/statnmap/SDMSelect/blob/master/img/ProbaOverThd.png)|
+|:---:|
+|Distribution of probabilities to be over the best threshold value separating presences from absences with SDMSelect library on Rstat|
 
 ## Caution 
 This library relies on a lot of other R-packages, which means that any modifications of those may prevent this library to work correctly. As I continue to use it regularly, I may see if some updates broke some of my functions and would try to fix them.  
