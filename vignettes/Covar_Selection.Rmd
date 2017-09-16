@@ -1,0 +1,140 @@
+---
+title: "Select the best covariates to fit a model"
+author: "StatnMap - Sébastien Rochette"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    caption: yes
+vignette: >
+  %\VignetteIndexEntry{Select the best covariates to fit a model}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE, purl=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  message = FALSE,
+  warning = FALSE,
+  fig.show = 'asis',
+  out.width = '75%',
+  fig.align = 'center',
+  fig.width = 7,
+  fig.height = 7
+)
+```
+
+## Outlines
+This library has been created for model selection to predict species distribution (Biomass, density or presence/absence). Its final aim is to produce maps of predicted distributions. However, the core is a k-fold cross-validation model selection procedure that can be applied to any kind of model, provided that parameters of the selection are well defined.
+We use the classical `cars` dataset to show the different possibilities of the library. The variable of interest is `mpg`. This is a continuous numerical variable, **only positive**. This is in accordance with our data modelling case `datatype = "ContPosNull"` (continuous positive or null) and the model types associated (`modeltypes`). For other types of data, refer to the documentation (in particular, options in `modelselect_opt`) to correctly set your modelling parameters.
+
+## Load libraries and other setup
+```{r}
+library(SDMSelect)
+set.seed(50)
+
+# Temp directory for saving all outputs
+tmpdir <- paste0(tempdir(), "/out_CovarSelection")
+dir.create(tmpdir)
+```
+
+## Dataset
+```{r}
+data <- dplyr::mutate_at(mtcars, 8:11, as.character)
+```
+```{r, results='asis', echo=FALSE, purl=FALSE}
+knitr::kable(head(data))
+```
+
+## Modify the dataset to work with the library
+In this case, this only consists in changing observation column name to `dataY` and append factor column names with `factor_` for compatibility with following functions.
+```{r}
+data.new <- Prepare_dataset(
+  x = data, var = 1, cov = 2:ncol(data),
+  datatype = "Cont", na.rm = TRUE
+)
+```
+```{r, results='asis', echo=FALSE, purl=FALSE}
+knitr::kable(head(data.new))
+```
+
+## Covariates correlation
+Due to identifiability issues, highly correlated environmental covariates should not be included in the same models. Correlations between all possible pairs of covariates are tested using the Spearman's rho coefficient. Here, a rho value exceeding 0.7 considers covariates too correlated to be included in the same model. However, the following cross-validation procedure also guarantees too correlated covariates not to be included in the same models as gain in prediction may be low. Thus, the present covariates correlation selection step mainly allows the number of tested models to be reduced.
+
+```{r}
+corSpearman <- Param_corr(
+  x = data.new, rm = 1, thd = 0.7, visual = FALSE,
+  plot = TRUE, img.size = 5)
+
+```
+
+## Find the best combination of covariates
+Set options for presence-absence models. Have a look at options documentation `?modelselect_opt`.
+```{r}
+modelselect_opt(RESET = TRUE)
+modelselect_opt$Max_nb_Var <- 2
+modelselect_opt$datatype <- "ContPosNull"
+modelselect_opt$modeltypes <- modelselect_opt$modeltypes[c(1, 5, 11)]
+```
+```{r, echo=FALSE, purl=FALSE}
+# Limit number of cores for build
+modelselect_opt(nbclust = 2)
+```
+
+Procedure selects combination of covariates in each iteration from one covariate to the maximum defined (modelselect_opt("Max_nb_Var") = `r modelselect_opt("Max_nb_Var")`). This reproduces the procedure separately for all model types defined (modelselect_opt("modeltypes") = `r paste(modelselect_opt("modeltypes"), collapse = ", ")`). Here, for the example, I only run the model for three "modeltypes" (`r paste(modelselect_opt$modeltypes[c(1, 5, 11)], collapse = ", ")`).  
+The output of `findBestModel` function is the link to a zipped file of all outputs saved in the `saveWD` directory.
+
+```{r}
+res.file <- findBestModel(x = data.new, datatype = "ContPosNull", 
+                          corSpearman = corSpearman, saveWD = tmpdir, 
+                          verbose = 1)
+```
+
+## Order models according to quality of prediction
+Model selection was realised separately for each distribution tested. The exact same k-fold cross-validation datasets have been used to keep the best model at each step of the iteration procedure. All indices of goodness of fit can thus be compared among the distributions tested with paired statistical tests. This allows to order all models tested.
+
+```{r}
+BestModels <- ModelOrder(saveWD = res.file, plot = TRUE)
+```
+
+Two tables are available:
+
+- "VeryBestModels_crossV" retains the best model and the ones not significantly worse than the first one.
+```{r, results='asis', echo=FALSE, purl=FALSE}
+knitr::kable(BestModels$VeryBestModels_crossV, row.names = FALSE)
+```
+
+- "BestForModeltypes" retains the first two best models of each "modeltype".
+```{r, results='asis', echo=FALSE, purl=FALSE}
+knitr::kable(BestModels$BestForModeltypes, row.names = FALSE)
+```
+
+## Predictions of the best model
+We can choose one model, the best one here, and create a set of figure outputs to explore what it is predicting. Figures are saved in `saveWD` and its compressed version (its path is the output of the function, here stored in `res.file`)
+```{r, message=FALSE, results='hide'}
+Num.Best <- BestModels$VeryBestModels_crossV$Num[1]
+res.file <- ModelResults(saveWD = tmpdir, plot = TRUE, 
+                 Num = Num.Best)
+```
+
+In the case of a model with positive values as here, the outputs are the following. *If the best model is with a log-transformation, figures are mainly created in the log-scale*
+
+- Analysis of variance. Deviance explained by each covariate when added sequentially in the order specified by the cross-validation procedure. "%Exp.Dev" stands for percentage of explained deviance. "RMSE" is the root mean squared error on the validation datasets as issued from the cross-validation procedure, ">Diff" being the difference of RMSE with the previous step.  
+```{r, results='asis', out.width='90%', echo=FALSE, purl=FALSE}
+knitr::include_graphics(paste0(tmpdir, "/", basename(tmpdir), "-Param_Exp_Deviance_", Num.Best, ".png"))
+```
+
+- Residuals analysis  
+```{r, results='asis', echo=FALSE, purl=FALSE}
+knitr::include_graphics(paste0(tmpdir, "/", basename(tmpdir), "-Residual-Analysis_", Num.Best, ".png"))
+```
+
+- Marginal predictions by covariates. These are simplified marginal effects of each covariate in the range of observations. All covariates values except one have been fixed so that their combination give a prediction close to the mean of observations. These simplified marginals figures are to be read for their relative effect and not for their absolute prediction.  
+```{r, results='asis', echo=FALSE, purl=FALSE}
+knitr::include_graphics(paste0(tmpdir, "/", basename(tmpdir), "-CovForMeanPred_Marginals_", Num.Best, ".png"))
+```
+
+- Comparison of predictions against observations  
+```{r, results='asis', echo=FALSE, purl=FALSE}
+knitr::include_graphics(paste0(tmpdir, "/", basename(tmpdir), "-Obs-Pred_", Num.Best, ".png"))
+```

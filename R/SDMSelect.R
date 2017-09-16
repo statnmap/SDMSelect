@@ -1,0 +1,67 @@
+#' SDMSelect: A package for cross-validation model selection and species distribution mapping.
+#'
+#' The SDMSelect package is used with four main functions:
+#' Prepare_dataset, findBestModel, ModelResults and Map_predict.
+#'
+#' @section Data preparation:
+#' \itemize{
+#'   \item \code{\link{Prepare_covarStack}}: This creates a RasterStack from raster
+#'   files paths. Rasters are reprojected if needed to match the reference raster
+#'   to allow for stacking.
+#'   \item \code{\link{CovarExtract}}: Extract covariates information for a
+#'   SpatialointsDataFrame in the original raster files, whatever the projection.
+#'   \item \code{\link{Prepare_dataset}}: Create the dataset for modelling
+#'   containing only variables of interest. Data column is names "dataY" for modelling.
+#'   This function can also resample a spatial dataset in a regular grid to
+#'   reduce spatial auto-correlation.
+#'   \item \code{\link{spatialcor_dist}}: Tests for spatial auto-correlation and
+#'   proposes values of grid resolution to resample dataset in a regular grid.
+#'   \item \code{\link{RefRasterize}}: Create a regular grid from a spatial dataset
+#'   with a defined grid resolution. This can then be used with \code{\link{Prepare_dataset}}.
+#'   \item \code{\link{Param_corr}}: Test for Spearman's rank correlation between
+#'   covariates. Covariates couples with correlation above a specific threshold
+#'   will not be tested in the same model during the cross-validation procedure.
+#' }
+#'
+#' @section Forward stepwise cross-validation procedure:
+#' \itemize{
+#'   \item \code{\link{modelselect_opt}}: List of all options that are used for
+#'   the model selection procedure. All are default values that can be modified
+#'   according to a specific case study.
+#'   \item \code{\link{findBestModel}}: Forward stepwise cross-validation procedure.
+#'   A forward stepwise cross-validation procedure is run for each model type independently,
+#'   but on the same subsets of data. All outputs are saved in a directory for further
+#'   analyses.
+#'   \item \code{\link{ModelOrder}}: Compare all models from all model types together
+#'   to find the best models among all. Some figures shows differences in predictive
+#'   power of the models. The list of best models with a statistically equivalent
+#'   predictive power is saved for all models together, but also for each model type.
+#' }
+#'
+#' @section Model results analysis:
+#' \itemize{
+#'   \item \code{\link{ModelResults}}: This outputs different figures and tables
+#'   for the analysis of the model specified (typically the best one).
+#'   Analysis of variance and gain in predictive
+#'   power with regards to cross-validation, residual analysis,
+#'   marginal effect of selected covariates, comparison of predictions with observations.
+#' }
+#'
+#' @section Mapping predictions:
+#' \itemize{
+#'   \item \code{\link{Map_predict}}: This provides multiple map predictions for
+#'   the model specified (typically the best one). Map of average prediction,
+#'   minimum and maximum predictions (quantiles from parameters uncertainty),
+#'   Inter-quartile range (better than standard deviation when uncertainty of
+#'   predictions is not gaussian in the scale of the data; e.g. LogNormal or logit).
+#'   For presence-absence models, there is also probability that the prediction
+#'   is over the best threshold value (separating presence from absences). The
+#'   intuitive threshold of 0.5 is not always the best if the dataset is not well
+#'   balanced between presence and absence, with regards to covariates selected.
+#'   Covariates masks are also calculated provided that predictions should not be
+#'   made out of the range of the data.
+#' }
+#'
+#' @docType package
+#' @name SDMSelect
+NULL

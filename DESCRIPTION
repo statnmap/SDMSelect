@@ -1,0 +1,65 @@
+Package: SDMSelect
+Type: Package
+Title: Cross-validation model selection and species distribution mapping
+Version: 0.1.3
+Authors@R: c(person("Sébastien", "Rochette", email = "sebastienrochettefr@gmail.com",
+    role = c("aut", "cre")))
+Maintainer: Sébastien Rochette <sebastienrochettefr@gmail.com>
+Description: Select GAM, GLM models using a multiple k-fold cross-validation and 
+  map species distribution while accounting for model uncertainties.
+  Multiple family are possible and compared all together using RMSE or AUC as
+  a result of cross-validation procedure. Covariates correlation may be tested.
+  The model selection procedure will test different combinations of covariates
+  with LM, GLM, GLM natural splines and GAM models, with different 
+  distributions (Gaussian, Gamma, Log-Normal, Tweedie; Binomial) and
+  with different maximum degrees of freedom for GLM with polynoms or
+  natural splines. Calculations are parallelized when possible.
+  Outputs are numerous, allowing for summary of the model selection and
+  the comparison of the different models all together. The final model selected
+  is used to map species distribution along with maps of uncertainty.
+URL: https://github.com/statnmap/SDMSelect
+BugReports: https://github.com/statnmap/SDMSelect/issues
+Depends: GlobalOptions, R (>= 3.2.0)
+License: GPL
+Encoding: UTF-8
+LazyData: true
+Remotes: 
+    taiyun/corrplot (>= 0.82)
+Imports:
+    corrr,
+    corrplot,
+    dplyr (>= 0.7),
+    geoR,    
+    ggplot2,
+    graphics,
+    magrittr,
+    mapdata,
+    maps,
+    maptools,    
+    methods,
+    mgcv (>= 1.8-19),
+    planor,
+    plyr,
+    png,
+    raster,
+    readr,
+    rgdal,
+    ROCR,
+    rosm,
+    snow,
+    sp,
+    splines,
+    statmod,
+    stats,
+    survey,
+    tcltk,
+    tidyr,
+    tweedie,
+    yarrr
+VignetteBuilder: knitr
+Suggests: 
+    knitr, 
+    rmarkdown,
+    dismo,
+    rasterVis
+RoxygenNote: 6.0.1
