@@ -20,7 +20,7 @@ Description: Select GAM, GLM models using a multiple k-fold cross-validation and
 URL: https://github.com/statnmap/SDMSelect
 BugReports: https://github.com/statnmap/SDMSelect/issues
 Depends: GlobalOptions, R (>= 3.2.0)
-License: GPL
+License: GPL (>= 3) | file LICENSE
 Encoding: UTF-8
 LazyData: true
 Remotes: 
