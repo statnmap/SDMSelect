@@ -12,7 +12,7 @@
 
 <meta name="author" content="StatnMap - Sébastien Rochette" />
 
-<meta name="date" content="2017-09-07" />
+<meta name="date" content="2017-09-16" />
 
 <title>Select the best covariates to fit a model</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Select the best covariates to fit a model</h1>
 <h4 class="author"><em>StatnMap - Sébastien Rochette</em></h4>
-<h4 class="date"><em>2017-09-07</em></h4>
+<h4 class="date"><em>2017-09-16</em></h4>
 
 
 
@@ -312,66 +312,6 @@ The output of <code>findBestModel</code> function is the link to a zipped file o
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res.file &lt;-<span class="st"> </span><span class="kw">findBestModel</span>(<span class="dt">x =</span> data.new, <span class="dt">datatype =</span> <span class="st">&quot;ContPosNull&quot;</span>, 
                           <span class="dt">corSpearman =</span> corSpearman, <span class="dt">saveWD =</span> tmpdir, 
                           <span class="dt">verbose =</span> <span class="dv">1</span>)</code></pre></div>
-<pre><code>## [1] &quot; ----------------------------- &quot;
-## [1] &quot;modeltype: LogContGLM&quot;
-## [1] &quot;nb: 1&quot;
-## [1] &quot;last model tested: log(dataY) ~ poly(qsec,4)&quot;
-## [1] &quot;modeltype=LogContGLM: 1/3 ; nb=1/2&quot;
-## [1] &quot;n_keep with  1 covariates (top 10)&quot;
-##      [,1]     
-## [1,] &quot;disp_P3&quot;
-## [2,] &quot;disp_P4&quot;
-## [3,] &quot;wt&quot;     
-## [4,] &quot;wt_P2&quot;  
-## [1] &quot;nb: 2&quot;
-## [1] &quot;last model tested: log(dataY) ~ poly(wt,2) + poly(qsec,4)&quot;
-## [1] &quot;modeltype=LogContGLM: 1/3 ; nb=2/2&quot;
-## [1] &quot;n_keep with  2 covariates (top 10)&quot;
-##      [,1]    [,2]     
-## [1,] &quot;wt_P2&quot; &quot;qsec&quot;   
-## [2,] &quot;wt_P2&quot; &quot;qsec_P2&quot;
-## [3,] &quot;wt&quot;    &quot;qsec_P2&quot;
-## [4,] &quot;wt&quot;    &quot;qsec&quot;   
-## [1] &quot; ----------------------------- &quot;
-## [1] &quot;modeltype: GammaGLMns&quot;
-## [1] &quot;nb: 1&quot;
-## [1] &quot;last model tested: dataY ~ ns(qsec, df=4)&quot;
-## [1] &quot;modeltype=GammaGLMns: 2/3 ; nb=1/2&quot;
-## [1] &quot;n_keep with  1 covariates (top 10)&quot;
-##      [,1]     
-## [1,] &quot;disp_P3&quot;
-## [2,] &quot;disp_P4&quot;
-## [3,] &quot;wt&quot;     
-## [4,] &quot;wt_P2&quot;  
-## [1] &quot;nb: 2&quot;
-## [1] &quot;last model tested: dataY ~ ns(wt, df=2) + ns(qsec, df=4)&quot;
-## [1] &quot;modeltype=GammaGLMns: 2/3 ; nb=2/2&quot;
-## [1] &quot;n_keep with  2 covariates (top 10)&quot;
-##      [,1]    [,2]     
-## [1,] &quot;wt_P2&quot; &quot;qsec&quot;   
-## [2,] &quot;wt_P2&quot; &quot;qsec_P2&quot;
-## [3,] &quot;wt&quot;    &quot;qsec_P2&quot;
-## [4,] &quot;wt&quot;    &quot;qsec&quot;   
-## [1] &quot; ----------------------------- &quot;
-## [1] &quot;modeltype: Cont&quot;
-## [1] &quot;nb: 1&quot;
-## [1] &quot;last model tested: dataY ~ factor_carb&quot;
-## [1] &quot;modeltype=Cont: 3/3 ; nb=1/2&quot;
-## [1] &quot;n_keep with  1 covariates (top 10)&quot;
-##      [,1]  
-## [1,] &quot;disp&quot;
-## [2,] &quot;wt&quot;  
-## [3,] &quot;hp&quot;  
-## [4,] &quot;drat&quot;
-## [1] &quot;nb: 2&quot;
-## [1] &quot;last model tested: dataY ~ s(drat,k=5) + factor_carb&quot;
-## [1] &quot;modeltype=Cont: 3/3 ; nb=2/2&quot;
-## [1] &quot;n_keep with  2 covariates (top 10)&quot;
-##      [,1]   [,2]       
-## [1,] &quot;wt&quot;   &quot;qsec&quot;     
-## [2,] &quot;disp&quot; &quot;qsec&quot;     
-## [3,] &quot;wt&quot;   &quot;factor_vs&quot;
-## [4,] &quot;disp&quot; &quot;factor_am&quot;</code></pre>
 </div>
 <div id="order-models-according-to-quality-of-prediction" class="section level2">
 <h2>Order models according to quality of prediction</h2>

@@ -102,26 +102,34 @@ modelselect_opt(RESET = TRUE)
 modelselect_opt$Max_nb_Var <- 2
 modelselect_opt$datatype <- "PA"
 
-## ------------------------------------------------------------------------
-res.file <- findBestModel(x = data.new, datatype = "PA", 
-                          corSpearman = corSpearman, 
-                          saveWD = tmpdir, 
-                          verbose = 1)
+## ---- eval=FALSE---------------------------------------------------------
+#  res.file <- findBestModel(x = data.new, datatype = "PA",
+#                            corSpearman = corSpearman,
+#                            saveWD = tmpdir,
+#                            verbose = 1)
+
+## ---- eval=FALSE---------------------------------------------------------
+#  # Less discriminant test to select the best models
+#  modelselect_opt$lim_pvalue_final <- 1e-3
+#  
+#  # Order models and find the bests
+#  BestModels <- ModelOrder(saveWD = tmpdir, plot = TRUE)
+
+## ---- echo=FALSE---------------------------------------------------------
+BestModelsFile <- system.file("SDM_Selection", "BestModels.rds", package = "SDMSelect")
+BestModels <- readr::read_rds(BestModelsFile)
+
+## ---- message=FALSE, results='hide', eval=FALSE--------------------------
+#  Num.Best <- BestModels$VeryBestModels_crossV$Num[1]
+#  res.file <- ModelResults(saveWD = tmpdir, plot = TRUE,
+#                   Num = Num.Best)
+
+## ---- eval=FALSE---------------------------------------------------------
+#  pred.r <- Map_predict(object = covariates, saveWD = tmpdir, Num = Num.Best)
 
 ## ------------------------------------------------------------------------
-# Less discriminant test to select the best models
-modelselect_opt$lim_pvalue_final <- 1e-3
-
-# Order models and find the bests
-BestModels <- ModelOrder(saveWD = tmpdir, plot = TRUE)
-
-## ---- message=FALSE, results='hide'--------------------------------------
-Num.Best <- BestModels$VeryBestModels_crossV$Num[1]
-res.file <- ModelResults(saveWD = tmpdir, plot = TRUE, 
-                 Num = Num.Best)
-
-## ------------------------------------------------------------------------
-pred.r <- Map_predict(object = covariates, saveWD = tmpdir, Num = Num.Best)
+predr <- system.file("SDM_Selection", "predr.grd", package = "SDMSelect")
+pred.r <- raster::stack(predr)
 
 ## ---- out.width='60%', fig.height=6--------------------------------------
 rasterVis::gplot(raster::raster(pred.r, "resp.fit")) +
@@ -150,12 +158,16 @@ rasterVis::gplot(raster::dropLayer(pred.r, which(!names(pred.r) %in% c("IQR.M"))
   scale_fill_gradient("Relative\nDispersion\nto median", low = 'white', high = 'red') +
   coord_equal()
 
+## ---- eval=FALSE---------------------------------------------------------
+#  model_selected <- model_select(
+#    saveWD = tmpdir,
+#    new.data = data.new,
+#    Num = Num.Best)
+#  BestThd <- model_selected$Seuil
+
 ## ------------------------------------------------------------------------
-model_selected <- model_select(
-  saveWD = tmpdir,
-  new.data = data.new,
-  Num = Num.Best)
-BestThd <- model_selected$Seuil
+BestThdFile <- system.file("SDM_Selection", "BestThd.rds", package = "SDMSelect")
+BestThd <- readr::read_rds(BestThdFile)
 
 ## ---- out.width='60%', fig.height=6--------------------------------------
 rasterVis::gplot(raster::raster(pred.r, "resp.fit")) +

@@ -27,16 +27,20 @@ modelselect_opt$Max_nb_Var <- 2
 modelselect_opt$datatype <- "ContPosNull"
 modelselect_opt$modeltypes <- modelselect_opt$modeltypes[c(1, 5, 11)]
 
-## ------------------------------------------------------------------------
-res.file <- findBestModel(x = data.new, datatype = "ContPosNull", 
-                          corSpearman = corSpearman, saveWD = tmpdir, 
-                          verbose = 1)
+## ---- eval=FALSE---------------------------------------------------------
+#  res.file <- findBestModel(x = data.new, datatype = "ContPosNull",
+#                            corSpearman = corSpearman, saveWD = tmpdir,
+#                            verbose = 1)
 
-## ------------------------------------------------------------------------
-BestModels <- ModelOrder(saveWD = res.file, plot = TRUE)
+## ---- eval=FALSE---------------------------------------------------------
+#  BestModels <- ModelOrder(saveWD = res.file, plot = TRUE)
 
-## ---- message=FALSE, results='hide'--------------------------------------
-Num.Best <- BestModels$VeryBestModels_crossV$Num[1]
-res.file <- ModelResults(saveWD = tmpdir, plot = TRUE, 
-                 Num = Num.Best)
+## ---- echo=FALSE---------------------------------------------------------
+BestModelsFile <- system.file("Covar_Selection", "BestModels.rds", package = "SDMSelect")
+BestModels <- readr::read_rds(BestModelsFile)
+
+## ---- message=FALSE, results='hide', eval=FALSE--------------------------
+#  Num.Best <- BestModels$VeryBestModels_crossV$Num[1]
+#  res.file <- ModelResults(saveWD = tmpdir, plot = TRUE,
+#                   Num = Num.Best)
 

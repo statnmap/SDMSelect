@@ -17,11 +17,12 @@ To download the development version of the package, type the following at the R 
 
 ```r
 install.packages("devtools")  
-devtools::install_github("statnmap/sdmselect", build_vignettes = FALSE)
+devtools::install_github("statnmap/sdmselect", build_vignettes = TRUE)
 ```
 
 # Examples 
 Vignettes have been created to show how to use the library for covariate selection on simple cases (`vignette(package = "SDMSelect")`). First case is covariate selection procedure for classical dataset (not geographical data, nor species distribution data): `vignette("Covar_Selection", package = "SDMSelect")`. The second case is for spatial data of species occurence to produce predicted species distribution maps and maps of uncertainties: `vignette("SDM_Selection", package = "SDMSelect")`.
+*Note that most figures of the vignette are saved in "inst" so that model selection is not run during vignette building. However, code in the vignettes can be run on your own computer and should return the same outputs.*
 
 # Description
 
