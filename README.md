@@ -17,7 +17,7 @@ To download the development version of the package, type the following at the R 
 
 ```r
 install.packages("devtools")  
-devtools::install_github("statnmap/sdmselect", build_vignettes = TRUE)
+devtools::install_github("statnmap/SDMSelect", build_vignettes = TRUE)
 ```
 
 # Examples 
@@ -72,8 +72,6 @@ This library is not as complete as can be `library(caret)` in terms of model typ
 For your work on covariates selection and species distribution modelling, you can contact me. Vignettes will give you a good starting point. I'll be happy to participate to scientific collaborations based on this R-package. More information on my website <https://statnmap.com>.  
 
 If you want to participate in improving this library, please have a look at my todo list (in Vignettes) and feel free to clone, modify and provide pull requests.
-     
 
 # License
-
 This package is free and open source software, licensed under GPL.

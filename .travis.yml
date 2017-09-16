@@ -21,6 +21,9 @@ before_install:
   - sudo apt-get --yes --force-yes update -qq
   - sudo apt-get install --yes libudunits2-dev libproj-dev libgeos-dev libgdal-dev
 
+r_packages:
+  - mgcv
+
 warnings_are_errors: false
 
 notifications:
