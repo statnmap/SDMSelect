@@ -12,7 +12,7 @@
 
 <meta name="author" content="StatnMap - Sébastien Rochette" />
 
-<meta name="date" content="2017-09-16" />
+<meta name="date" content="2017-09-18" />
 
 <title>Species distribution model selection</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Species distribution model selection</h1>
 <h4 class="author"><em>StatnMap - Sébastien Rochette</em></h4>
-<h4 class="date"><em>2017-09-16</em></h4>
+<h4 class="date"><em>2017-09-18</em></h4>
 
 
 
@@ -78,7 +78,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2>Outlines</h2>
 <p>This library has been created for model selection to predict species distributions (Biomass, density or presence/absence). Its final aim is to produce maps of predicted distributions.<br />
 In this vignette, we use datasets from library <code>dismo</code> to show the different possibilities of the library with species distribution modelling, from model selection to predictive mapping. Dataset <code>bradypus</code> contains geographic position of species occurence. The different model types available in library <code>ModelSelect</code> to predict probability of presence all rely on presence/absence data. As the dataset only contains presence data, we need to create a pseudo-absence set of observations. Here, we do not discuss this method. We just imagine that we have a dataset of real observations of presence and <strong>real observations of absences</strong>, so that we can use presence-absence models.<br />
-We create a variable of interest (<code>Obs</code>) with presences (<code>1</code>) and absences (<code>0</code>). This is in accordance with our data modelling case <code>datatype = &quot;PA&quot;</code> and its sub-cases. For other types of data, refer to the documentation (in particular, options in <code>modelselect_opt</code>) to correctly set your modelling parameters.</p>
+We create a variable of interest (<code>Obs</code>) with presences (<code>1</code>) and absences (<code>0</code>). This is in accordance with our data modelling case <code>datatype = &quot;PA&quot;</code> and its sub-cases. For other types of data, refer to the documentation (in particular, options in <code>modelselect_opt</code>) to correctly set your modelling parameters.<br />
+<em>Note that most figures of the vignette are saved in “inst” so that model selection is not run during vignette building. However, code in the vignettes can be run on your own computer and should return the same outputs. To do so, open and run this Rmd file: /home/srochett/r-sdm/branches/Seb-add-doc/SDMSelect/inst/SDM_Selection/SDM_Selection.Rmd.</em></p>
 </div>
 <div id="load-libraries-and-other-setup" class="section level2">
 <h2>Load libraries and other setup</h2>
@@ -476,8 +477,10 @@ res.file &lt;-<span class="st"> </span><span class="kw">ModelResults</span>(<spa
 <h3>Probability of presence</h3>
 <p>The outputs of the best model can be used to predict species distribution. The model selected is coupled with the raster of <code>covariates</code> to predict a probability of presence in each cell of the raster. Function <code>Map_predict</code> returns a <code>RasterStack</code> with these predictions.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred.r &lt;-<span class="st"> </span><span class="kw">Map_predict</span>(<span class="dt">object =</span> covariates, <span class="dt">saveWD =</span> tmpdir, <span class="dt">Num =</span> Num.Best)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predr &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;SDM_Selection&quot;</span>, <span class="st">&quot;predr.grd&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;SDMSelect&quot;</span>)
-pred.r &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw">stack</span>(predr)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predr &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;SDM_Selection&quot;</span>, <span class="st">&quot;predr.tif&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;SDMSelect&quot;</span>)
+pred.r &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw">stack</span>(predr)
+predrNames &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;SDM_Selection&quot;</span>, <span class="st">&quot;predrNames.rds&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;SDMSelect&quot;</span>)
+<span class="kw">names</span>(pred.r) &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_rds</span>(predrNames)</code></pre></div>
 <p>The first output of interest is the first layer <code>resp.fit</code> of the <code>RasterStack</code>. Here, the predicted probability of presence.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rasterVis<span class="op">::</span><span class="kw">gplot</span>(raster<span class="op">::</span><span class="kw">raster</span>(pred.r, <span class="st">&quot;resp.fit&quot;</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> value)) <span class="op">+</span>

@@ -12,7 +12,7 @@
 
 <meta name="author" content="StatnMap - Sébastien Rochette" />
 
-<meta name="date" content="2017-09-16" />
+<meta name="date" content="2017-09-18" />
 
 <title>Select the best covariates to fit a model</title>
 
@@ -70,13 +70,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Select the best covariates to fit a model</h1>
 <h4 class="author"><em>StatnMap - Sébastien Rochette</em></h4>
-<h4 class="date"><em>2017-09-16</em></h4>
+<h4 class="date"><em>2017-09-18</em></h4>
 
 
 
 <div id="outlines" class="section level2">
 <h2>Outlines</h2>
-<p>This library has been created for model selection to predict species distribution (Biomass, density or presence/absence). Its final aim is to produce maps of predicted distributions. However, the core is a k-fold cross-validation model selection procedure that can be applied to any kind of model, provided that parameters of the selection are well defined. We use the classical <code>cars</code> dataset to show the different possibilities of the library. The variable of interest is <code>mpg</code>. This is a continuous numerical variable, <strong>only positive</strong>. This is in accordance with our data modelling case <code>datatype = &quot;ContPosNull&quot;</code> (continuous positive or null) and the model types associated (<code>modeltypes</code>). For other types of data, refer to the documentation (in particular, options in <code>modelselect_opt</code>) to correctly set your modelling parameters.</p>
+<p>This library has been created for model selection to predict species distribution (Biomass, density or presence/absence). Its final aim is to produce maps of predicted distributions. However, the core is a k-fold cross-validation model selection procedure that can be applied to any kind of model, provided that parameters of the selection are well defined. We use the classical <code>cars</code> dataset to show the different possibilities of the library. The variable of interest is <code>mpg</code>. This is a continuous numerical variable, <strong>only positive</strong>. This is in accordance with our data modelling case <code>datatype = &quot;ContPosNull&quot;</code> (continuous positive or null) and the model types associated (<code>modeltypes</code>). For other types of data, refer to the documentation (in particular, options in <code>modelselect_opt</code>) to correctly set your modelling parameters.<br />
+<em>Note that most figures of the vignette are saved in “inst” so that model selection is not run during vignette building. However, code in the vignettes can be run on your own computer and should return the same outputs. To do so, open and run this Rmd file: /home/srochett/r-sdm/branches/Seb-add-doc/SDMSelect/inst/Covar_Selection/Covar_Selection.Rmd.</em></p>
 </div>
 <div id="load-libraries-and-other-setup" class="section level2">
 <h2>Load libraries and other setup</h2>

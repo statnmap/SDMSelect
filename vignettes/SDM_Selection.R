@@ -128,8 +128,10 @@ BestModels <- readr::read_rds(BestModelsFile)
 #  pred.r <- Map_predict(object = covariates, saveWD = tmpdir, Num = Num.Best)
 
 ## ------------------------------------------------------------------------
-predr <- system.file("SDM_Selection", "predr.grd", package = "SDMSelect")
+predr <- system.file("SDM_Selection", "predr.tif", package = "SDMSelect")
 pred.r <- raster::stack(predr)
+predrNames <- system.file("SDM_Selection", "predrNames.rds", package = "SDMSelect")
+names(pred.r) <- readr::read_rds(predrNames)
 
 ## ---- out.width='60%', fig.height=6--------------------------------------
 rasterVis::gplot(raster::raster(pred.r, "resp.fit")) +

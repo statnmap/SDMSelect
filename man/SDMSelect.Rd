@@ -9,6 +9,21 @@
 The SDMSelect package is used with four main functions:
 Prepare_dataset, findBestModel, ModelResults and Map_predict.
 }
+\section{Vignettes}{
+
+You can test the package through its vignettes. Vignettes are shown with:
+\itemize{
+  \item vignette("Covar_Selection", package = "SDMSelect")
+  \item vignette("SDM_Selection", package = "SDMSelect")
+}
+
+You can also find the path of the complete vignettes to be run on your computer with:
+\itemize{
+   \item system.file("Covar_Selection", "Covar_Selection.Rmd", package = "SDMSelect")
+   \item system.file("SDM_Selection", "SDM_Selection.Rmd", package = "SDMSelect")
+}
+}
+
 \section{Data preparation}{
 
 \itemize{
