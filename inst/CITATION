@@ -1,15 +1,15 @@
 citHeader("To cite SDMSelect in publications use:")
 
 citEntry(entry = "misc",
-  title        = "Cross-validation model selection and species distribution mapping - v0.1.2",
+  title        = "SDMSelect: A R-package for cross-validation model selection and species distribution mapping.",
   author       = personList(as.person("Sébastien Rochette")),
   journal      = "Zenodo",
   year         = "2017",
-  url          = "https://doi.org/10.5281/zenodo.845493",
+  url          = "http://doi.org/10.5281/zenodo.894344",
 
   textVersion  =
-  paste("Sébastien Rochette. (2017, August 18).",
-        "Cross-validation model selection and species distribution mapping - v0.1.2.",
+  paste("Sébastien Rochette. (2017, September 18).",
+        "SDMSelect: A R-package for cross-validation model selection and species distribution mapping.",
         "Zenodo.",
-        "http://doi.org/10.5281/zenodo.845493")
+        "http://doi.org/10.5281/zenodo.894344")
 )

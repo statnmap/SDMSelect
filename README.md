@@ -1,4 +1,5 @@
 [![Travis-CI Build Status](https://travis-ci.org/statnmap/SDMSelect.svg?branch=master)](https://travis-ci.org/statnmap/SDMSelect)
+[![DOI](https://zenodo.org/badge/103759843.svg)](https://zenodo.org/badge/latestdoi/103759843)
 
 # Summary
 
@@ -9,7 +10,9 @@ The R package **SDMSelect** is for species distribution modeling (SDM). It uses 
 |Distribution of probability of presence with SDMSelect library on Rstat|
 
 # How to cite
-Please give credit where credit is due and cite R and R packages when you use them for data analysis. To cite `SDMSelect` properly, call the R built-in command `citation("SDMSelect")`.
+Please give credit where credit is due and cite R and R packages when you use them for data analysis. To cite `SDMSelect` properly, call the R built-in command `citation("SDMSelect")`:
+
+> Sébastien Rochette. (2017, September 18). SDMSelect: A R-package for cross-validation model selection and species distribution mapping. Zenodo. http://doi.org/10.5281/zenodo.894344
 
 # Download and Install
 
