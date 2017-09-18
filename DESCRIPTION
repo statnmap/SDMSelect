@@ -56,10 +56,10 @@ Imports:
     tidyr,
     tweedie,
     yarrr
-VignetteBuilder: knitr
 Suggests: 
     knitr, 
     rmarkdown,
     dismo,
     rasterVis
+VignetteBuilder: knitr
 RoxygenNote: 6.0.1
