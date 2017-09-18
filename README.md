@@ -13,18 +13,31 @@ Please give credit where credit is due and cite R and R packages when you use th
 
 # Download and Install
 
-Before installing SDMSelect, be sure to have updated versions of `mgcv (>= 1.8-19)` and `dplyr (>= 0.7)`. Moreover, `corrplot` needs to be installed from github repository to get version `taiyun/corrplot (>= 0.82)`: `devtools::install_github("taiyun/corrplot")`.
+Before installing `SDMSelect`, be sure to have updated versions of `mgcv (>= 1.8-19)` and `dplyr (>= 0.7)`. Moreover, `corrplot` needs to be installed from github repository to get version `taiyun/corrplot (>= 0.82)`: `devtools::install_github("taiyun/corrplot")`.
 
 To download the development version of the `SDMSelect` package, type the following at the R command line:
 
 ```r
 install.packages("devtools")  
-devtools::install_github("statnmap/SDMSelect", build_vignettes = TRUE)
+devtools::install_github("statnmap/SDMSelect")
 ```
+
+To be able to see the vignettes, you will previously need to install `knitr`, `rmarkdown`, `dismo` and `rasterVis`, and install `SDMSelect`with:
+```
+devtools::install_github("statnmap/SDMSelect", build_vignettes = TRUE, dependencies = c("Depends", "Imports", "Suggests"))
+```
+
+Note that spatial libraries like `rgdal` and `sp` may require additional softwares to be installed on your computer if you work with Mac or Linux. Look how to install `proj4`, `geos` and `gdal` on your system.
+
+## Issues
+
+- `namespace 'mgcv' 1.xx is being loaded, but >= 1.8.19 is required`. This means that you need to update `mgcv` library: `install.packages("mgcv", force = TRUE)`.
+- Error when building vignette: `win.asp is not graphical parameter`. This means you did not install the github version of `corrplot`: `devtools::install_github("taiyun/corrplot")`  
+- `there is no package called 'dismo' ... cannot create a RasterLayer object from this file (file does not exist)`: install library `dismo`: `install.packages("dismo")`
 
 # Examples 
 Vignettes have been created to show how to use the library for covariate selection on simple cases (`vignette(package = "SDMSelect")`). First case is covariate selection procedure for classical dataset (not geographical data, nor species distribution data): `vignette("Covar_Selection", package = "SDMSelect")`. The second case is for spatial data of species occurence to produce predicted species distribution maps and maps of uncertainties: `vignette("SDM_Selection", package = "SDMSelect")`.
-*Note that most figures of the vignette are saved in "inst" so that model selection is not run during vignette building. However, code in the vignettes can be run on your own computer and should return the same outputs. You can also find the path of the complete vignettes to be run on your computer with: `system.file("Covar_Selection", "Covar_Selection.Rmd", package = "SDMSelect")` and `system.file("SDM_Selection", "SDM_Selection.Rmd", package = "SDMSelect")`*  
+*Note that most figures of the vignette are saved in "inst" so that model selection is not run during vignette building. However, code in the vignettes can be run on your own computer and should return the same outputs. You can also find the path of the complete vignettes to be run on your computer with: `system.file("Covar_Selection", "Covar_Selection.Rmd", package = "SDMSelect")` and `system.file("SDM_Selection", "SDM_Selection.Rmd", package = "SDMSelect")`. Open and click `knit` button if you are on Rstudio. (This may require 5-10 minutes depending on the number of cores of your system).*  
 Main functions are listed in the library general help: `?SDMSelect`.
 
 # Description
