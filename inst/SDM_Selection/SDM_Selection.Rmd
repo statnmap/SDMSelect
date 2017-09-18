@@ -175,10 +175,7 @@ modelselect_opt(RESET = TRUE)
 modelselect_opt$Max_nb_Var <- 2
 modelselect_opt$datatype <- "PA"
 ```
-```{r, echo=FALSE, purl=FALSE}
-# Limit number of cores for build
-modelselect_opt(nbclust = 2)
-```
+
 
 Procedure selects combination of covariates in each iteration from one covariate to the maximum defined (modelselect_opt("Max_nb_Var") = `r modelselect_opt("Max_nb_Var")`). 
 This reproduces the procedure separately for all model types defined (modelselect_opt("modeltypes") = `r paste(modelselect_opt("modeltypes"), collapse = ", ")`).
