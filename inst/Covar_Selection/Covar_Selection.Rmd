@@ -76,10 +76,6 @@ modelselect_opt$Max_nb_Var <- 2
 modelselect_opt$datatype <- "ContPosNull"
 modelselect_opt$modeltypes <- modelselect_opt$modeltypes[c(1, 5, 11)]
 ```
-```{r, echo=FALSE, purl=FALSE}
-# Limit number of cores for build
-modelselect_opt(nbclust = 2)
-```
 
 Procedure selects combination of covariates in each iteration from one covariate to the maximum defined (modelselect_opt("Max_nb_Var") = `r modelselect_opt("Max_nb_Var")`). This reproduces the procedure separately for all model types defined (modelselect_opt("modeltypes") = `r paste(modelselect_opt("modeltypes"), collapse = ", ")`). Here, for the example, I only run the model for three "modeltypes" (`r paste(modelselect_opt$modeltypes[c(1, 5, 11)], collapse = ", ")`).  
 The output of `findBestModel` function is the link to a zipped file of all outputs saved in the `saveWD` directory.
