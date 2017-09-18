@@ -13,7 +13,9 @@ Please give credit where credit is due and cite R and R packages when you use th
 
 # Download and Install
 
-To download the development version of the package, type the following at the R command line:
+Before installing SDMSelect, be sure to have updated versions of `mgcv (>= 1.8-19)` and `dplyr (>= 0.7)`. Moreover, `corrplot` needs to be installed from github repository to get version `taiyun/corrplot (>= 0.82)`: `devtools::install_github("taiyun/corrplot")`.
+
+To download the development version of the `SDMSelect` package, type the following at the R command line:
 
 ```r
 install.packages("devtools")  
