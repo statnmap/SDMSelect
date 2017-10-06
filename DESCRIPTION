@@ -1,7 +1,7 @@
 Package: SDMSelect
 Type: Package
 Title: Cross-validation model selection and species distribution mapping
-Version: 0.1.3
+Version: 0.1.3.9000
 Authors@R: c(person("Sébastien", "Rochette", email = "sebastienrochettefr@gmail.com",
     role = c("aut", "cre")))
 Maintainer: Sébastien Rochette <sebastienrochettefr@gmail.com>
