@@ -90,7 +90,7 @@ This library is not as complete as can be `library(caret)` in terms of model typ
 # Collaboration
 For your work on covariates selection and species distribution modelling, you can contact me. Vignettes will give you a good starting point. I'll be happy to participate to scientific collaborations based on this R-package. More information on my website <https://statnmap.com>.  
 
-If you want to participate in improving this library, please have a look at my todo list (in Vignettes) and feel free to clone, modify and provide pull requests.
+If you want to participate in improving this library, please have a look at my todo list (in Vignettes) and feel free to clone, modify and provide pull requests. Please run the two Rmd files in `inst` folder before submitting a pull request. These are the complete versions of the two vignettes.
 
 # License
 This package is free and open source software, licensed under GPL.
