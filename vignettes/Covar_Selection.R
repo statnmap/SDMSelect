@@ -23,7 +23,7 @@ corSpearman <- Param_corr(
 
 ## ------------------------------------------------------------------------
 modelselect_opt(RESET = TRUE)
-modelselect_opt$Max_nb_Var <- 2
+modelselect_opt$Max_nb_Var <- 5
 modelselect_opt$datatype <- "ContPosNull"
 modelselect_opt$modeltypes <- modelselect_opt$modeltypes[c(1, 5, 11)]
 

@@ -172,7 +172,7 @@ knitr::include_graphics(file.path(tmpdir, "Covariate_correlation_crop.png"))
 Set options for presence-absence models. Have a look at options documentation `?modelselect_opt`.
 ```{r}
 modelselect_opt(RESET = TRUE)
-modelselect_opt$Max_nb_Var <- 2
+modelselect_opt$Max_nb_Var <- 3
 modelselect_opt$datatype <- "PA"
 ```
 
@@ -192,11 +192,10 @@ res.file <- findBestModel(x = data.new, datatype = "PA",
 Model selection was realised separately for each distribution tested. The exact same k-fold cross-validation datasets have been used to keep the best model at each step of the iteration procedure. All indices of goodness of fit can thus be compared among the distributions tested with paired statistical tests. This allows to order all models tested. The best model and the following ones not statistically worse than the best one (one-sided `p-value >= modelselect_opt$lim_pvalue_final`) are retained.
 
 ```{r}
-# Less discriminant test to select the best models
-modelselect_opt$lim_pvalue_final <- 1e-3
-
 # Order models and find the bests
 BestModels <- ModelOrder(saveWD = tmpdir, plot = TRUE)
+# To add in /inst for vignettes
+readr::write_rds(BestModels, path = file.path(tmpdir, "BestModels.rds"))
 ```
 
 This results in figures showing the distribution of the goodness of fit (here AUC) issued from cross-validation for each model. This allows to see that predictive power of some models is not very different than the best one. Coloured boxplots are those of AUC distribution not statistically different from the best one (*Figure is here too small to see much of it*). Models are ranged by family chosen and number of covariates added during the forward stepwise procedure.  
@@ -256,6 +255,11 @@ knitr::include_graphics(paste0(tmpdir, "/", basename(tmpdir), "-Thresholds_for_p
 The outputs of the best model can be used to predict species distribution. The model selected is coupled with the raster of `covariates` to predict a probability of presence in each cell of the raster. Function `Map_predict` returns a `RasterStack` with these predictions.   
 ```{r}
 pred.r <- Map_predict(object = covariates, saveWD = tmpdir, Num = Num.Best)
+
+# To add in /inst for vignettes
+writeRaster(pred.r, filename = file.path(tmpdir, "predr.tif"))
+predrNames <- names(pred.r)
+readr::write_rds(predrNames, path = file.path(tmpdir, "predrNames.rds"))
 ```
 
 The first output of interest is the first layer `resp.fit` of the `RasterStack`. Here, the predicted probability of presence.  
@@ -301,6 +305,8 @@ model_selected <- model_select(
   new.data = data.new,
   Num = Num.Best)
 BestThd <- model_selected$Seuil
+# To add in /inst for vignettes
+readr::write_rds(BestThd, path = file.path(tmpdir, "BestThd.rds"))
 ```
 
 A better representation of the probabilities of presence should be with a double colour gradient, centred on the best threshold value (thd = `r BestThd`).  

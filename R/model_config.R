@@ -58,7 +58,7 @@ lt <- setGlobalOptions(
   nbMC = list(.value = function() get_opt_value('N_k_fold')*get_opt_value('k_fold')),
   seqthd = list(.value = seq(0.1, 0.9, 0.01)),
   lim_pvalue = list(.value = 0.001),
-  lim_pvalue_final = list(.value = 0.01),
+  lim_pvalue_final = list(.value = 0.005),
   Y.max = list(.value = function() ifelse(grepl("PA", get_opt_value('datatype')), 1, 2)),
   seed = list(.value = 20),
   get_opt_value_fun = TRUE

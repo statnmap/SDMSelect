@@ -99,7 +99,7 @@ corSpearman <- Param_corr(
 
 ## ------------------------------------------------------------------------
 modelselect_opt(RESET = TRUE)
-modelselect_opt$Max_nb_Var <- 2
+modelselect_opt$Max_nb_Var <- 3
 modelselect_opt$datatype <- "PA"
 
 ## ---- eval=FALSE---------------------------------------------------------
@@ -109,9 +109,6 @@ modelselect_opt$datatype <- "PA"
 #                            verbose = 1)
 
 ## ---- eval=FALSE---------------------------------------------------------
-#  # Less discriminant test to select the best models
-#  modelselect_opt$lim_pvalue_final <- 1e-3
-#  
 #  # Order models and find the bests
 #  BestModels <- ModelOrder(saveWD = tmpdir, plot = TRUE)
 

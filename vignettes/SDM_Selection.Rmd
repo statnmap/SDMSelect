@@ -173,7 +173,7 @@ knitr::include_graphics(file.path(tmpdir, "Covariate_correlation_crop.png"))
 Set options for presence-absence models. Have a look at options documentation `?modelselect_opt`.
 ```{r}
 modelselect_opt(RESET = TRUE)
-modelselect_opt$Max_nb_Var <- 2
+modelselect_opt$Max_nb_Var <- 3
 modelselect_opt$datatype <- "PA"
 ```
 
@@ -192,9 +192,6 @@ res.file <- findBestModel(x = data.new, datatype = "PA",
 Model selection was realised separately for each distribution tested. The exact same k-fold cross-validation datasets have been used to keep the best model at each step of the iteration procedure. All indices of goodness of fit can thus be compared among the distributions tested with paired statistical tests. This allows to order all models tested. The best model and the following ones not statistically worse than the best one (one-sided `p-value >= modelselect_opt$lim_pvalue_final`) are retained.
 
 ```{r, eval=FALSE}
-# Less discriminant test to select the best models
-modelselect_opt$lim_pvalue_final <- 1e-3
-
 # Order models and find the bests
 BestModels <- ModelOrder(saveWD = tmpdir, plot = TRUE)
 ```

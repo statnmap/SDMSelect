@@ -72,7 +72,7 @@ corSpearman <- Param_corr(
 Set options for presence-absence models. Have a look at options documentation `?modelselect_opt`.
 ```{r}
 modelselect_opt(RESET = TRUE)
-modelselect_opt$Max_nb_Var <- 2
+modelselect_opt$Max_nb_Var <- 5
 modelselect_opt$datatype <- "ContPosNull"
 modelselect_opt$modeltypes <- modelselect_opt$modeltypes[c(1, 5, 11)]
 ```
@@ -91,6 +91,8 @@ Model selection was realised separately for each distribution tested. The exact 
 
 ```{r}
 BestModels <- ModelOrder(saveWD = res.file, plot = TRUE)
+# To add in /inst for vignettes
+readr::write_rds(BestModels, path = file.path(tmpdir, "BestModels.rds"))
 ```
 
 Two tables are available:

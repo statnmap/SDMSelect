@@ -11,7 +11,7 @@ vignette: >
 # SDMSelect
 
 I decided to transform into a R package some R-scripts I have been using for years for my studies with species distribution modelling. It is not what I would call a clean R-library, but it works for my purpose and probably for yours too.  
-If you want to use this library for your research, I would be happy to collaborate and help you find the best ways of using it. Everything is not totally documented but vignettes will give you a good starting point (Please use citation). If you want to participate in converting this library into a cleaner one, please have a look at my todo list and feel free to clone, modify and provide pull requests.
+If you want to use this library for your research, I would be happy to collaborate and help you find the best ways of using it. Everything is not totally documented but vignettes will give you a good starting point (Please use citation). If you want to participate in converting this library into a cleaner one, please have a look at my todo list and feel free to clone, modify and provide pull requests. Please run the two Rmd files in `inst` folder before submitting a pull request. These are the complete versions of the two vignettes.
 
 ## On my list
 
@@ -20,7 +20,7 @@ VignetteBuilder: knitr
 - Change all save(.RData) to write_rds(.rds)
 - Propose maps of average covariates effect
 - Add Delta model outputs combination
-- Add gradient boost model (gbm) and/or randomForest in a separate function <https://datascienceplus.com/gradient-boosting-in-r> and/or library caret.
+- Add gradient boost model (gbm) and/or randomForest in a separate function <https://datascienceplus.com/gradient-boosting-in-r> and/or library caret: Look at <http://rsangole.netlify.com/post/pur-r-ify-your-carets/>
 - Modify to work with library `sf`
 - Centering covariates for better calculations. Be careful when plotting afterwards.
 - If multiple factor covariates, verify the size of validation dataset. Folds are created so that if not all levels are represented in the fitting dataset, the function add in the missing levels. But if there are many levels not represented, this may conduct to a fitting dataset equal to original dataset, and thus no validation dataset.
