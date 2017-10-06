@@ -755,26 +755,30 @@ best_distri <- function(x, w,
       # Test for the significance of difference with the first model
       # Need to cheat to compare to zero
       Signif.test  <- function(i, xt, w, orderModels.xNA, test) {
+        data.tmp <- data.frame(
+        val = c(rnorm(500, 10, 1), rep(0, 500)),
+        group = rep(1:2, each = 500),
+        w = rep(1, 1000)
+        )
 
-        # data.tmp <- data.frame(rbind(
-        #   cbind(xt[i, ] - xt[orderModels.xNA[1], ], rep(1, ncol(xt))),
-        #   cbind(rep(0, ncol(xt)), rep(2, ncol(xt))))
-        # )
-        data.tmp <- data.frame(val = c(xt[i, ] - xt[orderModels.xNA[1], ],
-                                       rep(0, ncol(xt))),
-                               group = rep(1:2, each = ncol(xt)),
-                               w = rep(w, 2))
+        if (i != orderModels.xNA[1]) {
+          data.tmp <- data.frame(val = c(xt[i, ] - xt[orderModels.xNA[1], ],
+                                         rep(0, ncol(xt))),
+                                 group = rep(1:2, each = ncol(xt)),
+                                 w = rep(w, 2))
 
-        #names(data.tmp) <- c("val", "group")
-        if (is.null(w)) {
-          design <- survey::svydesign(ids = ~0, data = data.tmp[,1:2])
+          if (is.null(w)) {
+            design <- survey::svydesign(ids = ~0, data = data.tmp[,1:2])
+          } else {
+            design <- survey::svydesign(ids = ~0, data = data.tmp[,1:2],
+                                        weights = c(data.tmp[,3]))
+          }
+          ttest <- survey::svyranktest(formula = val ~ group, design = design,
+                                       test = test)$p.value
         } else {
-          design <- survey::svydesign(ids = ~0, data = data.tmp[,1:2],
-                                      weights = c(data.tmp[,3]))
+          # ttest = 0 if distributions are equal
+          ttest <- 1
         }
-        ttest <- survey::svyranktest(formula = val ~ group, design = design,
-                                     test = test)$p.value
-
         ttest
       }
 
@@ -790,18 +794,17 @@ best_distri <- function(x, w,
       }
     }
 
-    if (!missing(p.min)) {
-      if (ttest.tmp[orderModels.xNA[orderN]] < p.min) {
-        p.min.test <- c(rep(TRUE, orderN - 1), rep(FALSE, nrow(x) - orderN + 1))
-        orderModels.xNA <- c(orderModels.xNA, c(1:nrow(x))[-orderModels.xNA][order(x_mean[-orderModels.xNA])])
-        ttest <- ttest.tmp[orderModels.xNA]
+    # if distributions are not statistically equal, no nead to continue ordering
+    if (ttest.tmp[orderModels.xNA[orderN]] < p.min) {
+      p.min.test <- c(rep(TRUE, orderN - 1), rep(FALSE, nrow(x) - orderN + 1))
+      orderModels.xNA <- c(orderModels.xNA, c(1:nrow(x))[-orderModels.xNA][order(x_mean[-orderModels.xNA])])
+      ttest <- ttest.tmp[orderModels.xNA]
 
-        orderModels <- x_n[orderModels.xNA]
-        if(!silent) {
-          print("100%")
-        }
-        break
+      orderModels <- x_n[orderModels.xNA]
+      if (!silent) {
+        print("100%")
       }
+      break
     }
     if (orderN == nrow(x)) {
       p.min.test <- rep(TRUE, nrow(x))
