@@ -23,11 +23,9 @@ Depends: GlobalOptions, R (>= 3.3.0)
 License: GPL (>= 3) | file LICENSE
 Encoding: UTF-8
 LazyData: true
-Remotes: 
-    taiyun/corrplot (>= 0.82)
 Imports:
     corrr,
-    corrplot,
+    corrplot (>= 0.82),
     dplyr (>= 0.7),
     geoR,    
     ggplot2,
