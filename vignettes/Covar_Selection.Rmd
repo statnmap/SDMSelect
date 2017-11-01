@@ -67,8 +67,11 @@ Due to identifiability issues, highly correlated environmental covariates should
 ```{r}
 corSpearman <- Param_corr(
   x = data.new, rm = 1, thd = 0.7, visual = FALSE,
-  plot = TRUE, img.size = 5)
+  plot = TRUE, saveWD = tmpdir, img.size = 5)
 
+```
+```{r, out.width='50%', purl=FALSE, echo=FALSE, fig.caption='Correlation between covariates'}
+knitr::include_graphics(file.path(tmpdir, "Covariate_correlation_crop.png"))
 ```
 
 ## Find the best combination of covariates
