@@ -275,10 +275,10 @@ RefRasterize <- function(x, res, degree = FALSE) {
         }
 
         # nb of columns
-        n.col <- round(dist.max.x / res2[1])
+        n.col <- floor(dist.max.x / res2[1])
         res2[1] <- (xmax(x) - xmin(x)) / n.col
         # nb of rows
-        n.row <- round(dist.max.y / res2[2])
+        n.row <- floor(dist.max.y / res2[2])
         res2[2] <- (ymax(x) - ymin(x)) / n.row
 
         warning(c("Your dataset is in geographic coordinates and res is in meter, ",
@@ -324,8 +324,10 @@ RefRasterize <- function(x, res, degree = FALSE) {
   ext <- raster::extent(x)
   nCol <- trunc((ext[2] - ext[1])/res2[1]) + 2
   nRow <- trunc((ext[4] - ext[3])/res2[2]) + 2
-  r <- raster::raster(xmn = ext[1] - res2[1], xmx = ext[1] - res2[1] + nCol * res2[1],
-                      ymn = ext[3] - res2[2], ymx = ext[3] - res2[2] + nRow * res2[2], ncol = nCol,
+  r <- raster::raster(xmn = ext[1] - res2[1],
+                      xmx = ext[1] - res2[1] + nCol * res2[1],
+                      ymn = ext[3] - res2[2],
+                      ymx = ext[3] - res2[2] + nRow * res2[2], ncol = nCol,
                       nrow = nRow, crs = sp::proj4string(x), vals = 1:(nRow * nCol))
   r
 }
