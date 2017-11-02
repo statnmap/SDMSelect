@@ -16,7 +16,7 @@ Please give credit where credit is due and cite R and R packages when you use th
 
 # Download and Install
 
-Before installing `SDMSelect`, be sure to have updated versions of `mgcv (>= 1.8-19)` and `dplyr (>= 0.7)`. Moreover, `corrplot` needs to be installed from github repository to get version `taiyun/corrplot (>= 0.82)`: `devtools::install_github("taiyun/corrplot")`.
+Before installing `SDMSelect`, be sure to have updated versions of `mgcv (>= 1.8-19)`, `dplyr (>= 0.7)` and `corrplot (>= 0.82)`.
 
 To download the development version of the `SDMSelect` package, type the following at the R command line:
 
@@ -35,7 +35,7 @@ Note that spatial libraries like `rgdal` and `sp` may require additional softwar
 ## Issues
 
 - `namespace 'mgcv' 1.xx is being loaded, but >= 1.8.19 is required`. This means that you need to update `mgcv` library: `install.packages("mgcv", force = TRUE)`.
-- Error when building vignette: `win.asp is not graphical parameter`. This means you did not install the github version of `corrplot`: `devtools::install_github("taiyun/corrplot")`  
+- Error when building vignette: `win.asp is not graphical parameter`. This means you did not install the last version of `corrplot`: `install.packages("corrplot", force = TRUE)`  
 - `there is no package called 'dismo' ... cannot create a RasterLayer object from this file (file does not exist)`: install library `dismo`: `install.packages("dismo")`
 
 # Examples 

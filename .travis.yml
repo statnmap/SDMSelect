@@ -32,5 +32,5 @@ notifications:
     on_failure: change
 
 r_github_packages:
-  - taiyun/corrplot
+  - statnmap/GeoDist
 
