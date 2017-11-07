@@ -62,7 +62,8 @@ Map_predict <- function(object, saveWD, mask = NULL, Num = NULL,
   saveWD <- normalizePath(saveWD)
 
   # Load information
-  load(paste0(saveWD, "/Allinfo_all.RData"))
+  # load(paste0(saveWD, "/Allinfo_all.RData"))
+  Allinfo_all <- readr::read_rds(paste0(saveWD, "/Allinfo_all.rds"))
   datatype <- Allinfo_all$datatype
 
   # Load variables of model configuration

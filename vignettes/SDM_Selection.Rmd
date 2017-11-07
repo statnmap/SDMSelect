@@ -200,7 +200,7 @@ BestModelsFile <- system.file("SDM_Selection", "BestModels.rds", package = "SDMS
 BestModels <- readr::read_rds(BestModelsFile)
 ```
 
-This results in figures showing the distribution of the goodness of fit (here AUC) issued from cross-validation for each model. This allows to see that predictive power of some models is not very different than the best one. Coloured boxplots are those of AUC distribution not statistically different from the best one (*Figure is here too small to see much of it*). Models are ranged by family chosen and number of covariates added during the forward stepwise procedure.  
+This results in figures showing the distribution of the goodness of fit (here AUC) issued from cross-validation for each model. This allows to see that predictive power of some models is not very different than the best one. Coloured boxplots are those of AUC distribution not statistically different from the best one. Models are ranged by family chosen and number of covariates added during the forward stepwise procedure.  
 
 ```{r, results='asis', echo=FALSE, purl=FALSE, out.width='90%'}
 Index_Error_on_crossVImg <- system.file("SDM_Selection", "Index_Error_on_crossV.png", package = "SDMSelect")

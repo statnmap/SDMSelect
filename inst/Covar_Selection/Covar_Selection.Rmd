@@ -33,7 +33,7 @@ We use the classical `cars` dataset to show the different possibilities of the l
 library(SDMSelect)
 set.seed(50)
 
-# Temp directory for saving all outputs
+# Directory for saving all outputs
 tmpdir <- paste0(tempdir(), "/out_CovarSelection")
 dir.create(tmpdir)
 ```
@@ -84,9 +84,10 @@ Procedure selects combination of covariates in each iteration from one covariate
 The output of `findBestModel` function is the link to a zipped file of all outputs saved in the `saveWD` directory.
 
 ```{r}
-res.file <- findBestModel(x = data.new, datatype = "ContPosNull", 
-                          corSpearman = corSpearman, saveWD = tmpdir, 
-                          verbose = 1)
+res.file <- findBestModel(
+  x = data.new, datatype = "ContPosNull", 
+  corSpearman = corSpearman, saveWD = tmpdir, 
+  verbose = 1)
 ```
 
 ## Order models according to quality of prediction
@@ -95,7 +96,7 @@ Model selection was realised separately for each distribution tested. The exact 
 ```{r}
 BestModels <- ModelOrder(saveWD = res.file, plot = TRUE)
 # To add in /inst for vignettes
-readr::write_rds(BestModels, path = file.path(tmpdir, "BestModels.rds"))
+readr::write_rds(BestModels, path = "BestModels.rds")
 ```
 
 Two tables are available:
@@ -124,18 +125,36 @@ In the case of a model with positive values as here, the outputs are the followi
 ```{r, results='asis', out.width='90%', echo=FALSE, purl=FALSE}
 knitr::include_graphics(paste0(tmpdir, "/", basename(tmpdir), "-Param_Exp_Deviance_", Num.Best, ".png"))
 ```
+```{r, echo=FALSE, results='hide'}
+# Save in inst
+file.copy(paste0(tmpdir, "/", basename(tmpdir), "-Param_Exp_Deviance_", Num.Best, ".png"), "Param_Exp_Deviance.png", overwrite = TRUE)
+```
 
 - Residuals analysis  
 ```{r, results='asis', echo=FALSE, purl=FALSE}
 knitr::include_graphics(paste0(tmpdir, "/", basename(tmpdir), "-Residual-Analysis_", Num.Best, ".png"))
+```
+```{r, echo=FALSE, results='hide'}
+# Save in inst
+file.copy(paste0(tmpdir, "/", basename(tmpdir), "-Residual-Analysis_", Num.Best, ".png"), "Residual-Analysis.png", overwrite = TRUE)
 ```
 
 - Marginal predictions by covariates. These are simplified marginal effects of each covariate in the range of observations. All covariates values except one have been fixed so that their combination give a prediction close to the mean of observations. These simplified marginals figures are to be read for their relative effect and not for their absolute prediction.  
 ```{r, results='asis', echo=FALSE, purl=FALSE}
 knitr::include_graphics(paste0(tmpdir, "/", basename(tmpdir), "-CovForMeanPred_Marginals_", Num.Best, ".png"))
 ```
+```{r, echo=FALSE, results='hide'}
+# Save in inst
+file.copy(paste0(tmpdir, "/", basename(tmpdir), "-CovForMeanPred_Marginals_", Num.Best, ".png"),
+          "CovForMeanPred_Marginals.png", overwrite = TRUE)
+```
 
 - Comparison of predictions against observations  
 ```{r, results='asis', echo=FALSE, purl=FALSE}
 knitr::include_graphics(paste0(tmpdir, "/", basename(tmpdir), "-Obs-Pred_", Num.Best, ".png"))
+```
+```{r, echo=FALSE, results='hide'}
+# Save in inst
+file.copy(paste0(tmpdir, "/", basename(tmpdir), "-Obs-Pred_", Num.Best, ".png"),
+          "Obs-Pred.png", overwrite = TRUE)
 ```

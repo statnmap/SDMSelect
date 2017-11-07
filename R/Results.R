@@ -53,7 +53,8 @@ ModelOrder <- function(saveWD, plot, zip.file = TRUE, cl = NULL)
   seqthd <- opt_saved$seqthd
 
   # Load information
-  load(paste0(saveWD, "/Allinfo_all.RData"))
+  # load(paste0(saveWD, "/Allinfo_all.RData"))
+  Allinfo_all <- readr::read_rds(paste0(saveWD, "/Allinfo_all.rds"))
   datatype <- Allinfo_all$datatype
   modeltypes <- Allinfo_all$modeltypes
 
@@ -63,7 +64,8 @@ ModelOrder <- function(saveWD, plot, zip.file = TRUE, cl = NULL)
   # Verif random sub-dataset for crossV used are the same
   allM <- paste0("M", 1:length(modeltypes))
   for (MX in 1:length(allM)) {
-    load(file = paste0(saveWD, "/saveAlea", allM[MX], ".RData"))
+    # load(file = paste0(saveWD, "/saveAlea", allM[MX], ".RData"))
+    saveAlea <- readr::read_rds(paste0(saveWD, "/saveAlea", allM[MX], ".rds"))
     if (MX == 1) {
       saveAleaM1 <- saveAlea
     }
@@ -74,7 +76,8 @@ ModelOrder <- function(saveWD, plot, zip.file = TRUE, cl = NULL)
       }
     }
   }
-  load(file = paste0(saveWD, "/saveAlea.nbM", 1, ".RData"))
+  saveAlea <- saveAleaM1
+  saveAlea.nb <- readr::read_rds(paste0(saveWD, "/saveAlea.nbM1.rds"))
 
   # Combine all results
   resAIC_unlist <- logical(0)
@@ -95,33 +98,41 @@ ModelOrder <- function(saveWD, plot, zip.file = TRUE, cl = NULL)
 
   allM <- paste0("M", 1:length(modeltypes))
   for (MX in 1:length(allM)) {
-    load(file = paste0(saveWD, "/resAIC_save", allM[MX], ".RData"))
+    # load(file = paste0(saveWD, "/resAIC_save", allM[MX], ".RData"))
+    resAIC_save <- readr::read_rds(paste0(saveWD, "/resAIC_save", allM[MX], ".rds"))
     resAIC_unlist <- c(resAIC_unlist, unlist(resAIC_save))
     nb_per_modeltypes <- c(nb_per_modeltypes, length(unlist(resAIC_save)))
     if (grepl("TweedGLM|KrigeGLM", modeltypes[MX])) {
-      load(file = paste0(saveWD, "/resParam_save", allM[MX], ".RData"))
+      # load(file = paste0(saveWD, "/resParam_save", allM[MX], ".RData"))
+      resParam_save <- readr::read_rds(paste0(saveWD, "/resParam_save", allM[MX], ".rds"))
       resParam_unlist <- c(resParam_unlist, unlist(resParam_save))
     } else {
       resParam_unlist <- c(resParam_unlist, rep(NA, length(unlist(resAIC_save))))
     }
-    load(file = paste0(saveWD, "/test_models", allM[MX], ".RData"))
+    # load(file = paste0(saveWD, "/test_models", allM[MX], ".RData"))
+    test_models <- readr::read_rds(paste0(saveWD, "/test_models", allM[MX], ".rds"))
     test_models_unlist_A <- unlist(test_models)
     test_models_unlist <- c(test_models_unlist, test_models_unlist_A)
-    load(file = paste0(saveWD, "/Output_models", allM[MX], ".RData"))
-    ToutResDev_crossV_A <- apply(t(1:length(Output_models)), 2, function(x)
-      Output_models[[x]][4,,])
+    # load(file = paste0(saveWD, "/Output_models", allM[MX], ".RData"))
+    Output_models <- readr::read_rds(
+      paste0(saveWD, "/Output_models", allM[MX], ".rds"))
+    # ToutResDev_crossV_A <- apply(t(1:length(Output_models)), 2, function(x)
+    #  Output_models[[x]][4,,])
+    ToutResDev_crossV_A <- purrr::map(Output_models, ~.[4,,])
     ToutResDev_crossV_A2 <- do.call(rbind, ToutResDev_crossV_A)
     ToutResDev_crossV <- rbind(ToutResDev_crossV, ToutResDev_crossV_A2)
     l_Max_Nb_Var <- c(l_Max_Nb_Var, length(ToutResDev_crossV_A))
     if (grepl("PA|TweedGLM", modeltypes[MX])) {
-      ToutAUC_crossV_A <- apply(t(1:length(Output_models)), 2, function(x)
-        Output_models[[x]][7 + length(seqthd) + 1,,])
+      #ToutAUC_crossV_A <- apply(t(1:length(Output_models)), 2, function(x)
+      #  Output_models[[x]][7 + length(seqthd) + 1,,])
+      ToutAUC_crossV_A <- purrr::map(Output_models, ~.[7 + length(seqthd) + 1,,])
       ToutAUC_crossV_A2 <- do.call(rbind, ToutAUC_crossV_A)
       ToutAUC_crossV <- rbind(ToutAUC_crossV, ToutAUC_crossV_A2)
     }
     if (grepl("Cont|Count|Gamma", modeltypes[MX])) {
-      MeanPercentError_crossV_A <- apply(t(1:length(Output_models)),
-                                         2, function(x) Output_models[[x]][5,,])
+      # MeanPercentError_crossV_A <- apply(t(1:length(Output_models)),
+      #                                   2, function(x) Output_models[[x]][5,,])
+      MeanPercentError_crossV_A <- purrr::map(Output_models, ~.[5,,])
       MeanPercentError_crossV_A2 <- do.call(rbind, MeanPercentError_crossV_A)
       MeanPercentError_crossV <- rbind(MeanPercentError_crossV,
                                        MeanPercentError_crossV_A2)
@@ -131,26 +142,33 @@ ModelOrder <- function(saveWD, plot, zip.file = TRUE, cl = NULL)
     } else {
       N_RMSE <- 6
     }
-    ToutRMSE_crossV_A <- apply(t(1:length(Output_models)), 2, function(x)
-      Output_models[[x]][N_RMSE,,])
+    #ToutRMSE_crossV_A <- apply(t(1:length(Output_models)), 2, function(x)
+    #  Output_models[[x]][N_RMSE,,])
+    ToutRMSE_crossV_A <- purrr::map(Output_models, ~.[N_RMSE,,])
     ToutRMSE_crossV_A2 <- do.call(rbind, ToutRMSE_crossV_A)
     ToutRMSE_crossV <- rbind(ToutRMSE_crossV, ToutRMSE_crossV_A2)
     nb_models_per_nb <- c(nb_models_per_nb, unlist(lapply(ToutRMSE_crossV_A, nrow)))
 
     if (grepl("PA|TweedGLM", modeltypes[MX])) {
-      load(file = paste0(saveWD, "/BestTHD_crossV", allM[MX], ".RData"))
-      load(file = paste0(saveWD, "/DiffSelSpeTHD_crossV", allM[MX], ".RData"))
+      # load(file = paste0(saveWD, "/BestTHD_crossV", allM[MX], ".RData"))
+      BestTHD_crossV <- readr::read_rds(
+        paste0(saveWD, "/BestTHD_crossV", allM[MX], ".rds"))
+      # load(file = paste0(saveWD, "/DiffSelSpeTHD_crossV", allM[MX], ".RData"))
+      DiffSelSpeTHD_crossV <- readr::read_rds(
+        paste0(saveWD, "/DiffSelSpeTHD_crossV", allM[MX], ".rds"))
       BestTHD_crossV_unlist <- c(BestTHD_crossV_unlist, unlist(BestTHD_crossV))
       DiffSelSpeTHD_crossV_unlist_A <- do.call(rbind, DiffSelSpeTHD_crossV)
       DiffSelSpeTHD_crossV_unlist <- rbind(DiffSelSpeTHD_crossV_unlist,
                                            100 * DiffSelSpeTHD_crossV_unlist_A/dim(saveAlea)[1])
 
-      MinUn_crossV_A <- apply(t(1:length(Output_models)), 2, function(x)
-        Output_models[[x]][5,,])
+      #MinUn_crossV_A <- apply(t(1:length(Output_models)), 2, function(x)
+      #  Output_models[[x]][5,,])
+      MinUn_crossV_A <- purrr::map(Output_models, ~.[5,,])
       MinUn_crossV_A2 <- do.call(rbind, MinUn_crossV_A)
       MinUn_crossV <- rbind(MinUn_crossV, MinUn_crossV_A2)
-      MaxZero_crossV_A <- apply(t(1:length(Output_models)), 2, function(x)
-        Output_models[[x]][6,,])
+      #MaxZero_crossV_A <- apply(t(1:length(Output_models)), 2, function(x)
+      #  Output_models[[x]][6,,])
+      MaxZero_crossV_A <- purrr::map(Output_models, ~.[6,,])
       MaxZero_crossV_A2 <- do.call(rbind, MaxZero_crossV_A)
       MaxZero_crossV <- rbind(MaxZero_crossV, MaxZero_crossV_A2)
     }
@@ -160,8 +178,9 @@ ModelOrder <- function(saveWD, plot, zip.file = TRUE, cl = NULL)
     save(MaxZero_crossV, file = paste0(saveWD, "/MaxZero_crossV.RData"))
 
     if (grepl("TweedGLM", modeltypes[MX])) {
-      ToutLogl_crossV_A <- apply(t(1:length(Output_models)), 2, function(x)
-        Output_models[[x]][7 + length(seqthd) + 3,,])
+      #ToutLogl_crossV_A <- apply(t(1:length(Output_models)), 2, function(x)
+      #  Output_models[[x]][7 + length(seqthd) + 3,,])
+      ToutLogl_crossV_A <- purrr::map(Output_models, ~.[7 + length(seqthd) + 3,,])
       ToutLogl_crossV_A2 <- do.call(rbind, ToutLogl_crossV_A)
       ToutLogl_crossV <- rbind(ToutLogl_crossV, ToutLogl_crossV_A2)
     }
@@ -267,35 +286,6 @@ ModelOrder <- function(saveWD, plot, zip.file = TRUE, cl = NULL)
   DiffTo1 <- meandiff_distri(x = IndexForRank_crossV[orderModels,],
                              n = 1, w = saveAlea.nb, comp.n = TRUE)
 
-  # Keep models in orderModels ----
-  # Find models having ranks not significantly different (p>=0.001) than the best
-  # model lim_pvalue can be large for this step to keep a little more
-  # models than necessary
-  #   Line_keep <- numeric(0)
-  #   orderModels <- order(OrderIndexForRank_crossVMean)
-  # ttest <- t.test(IndexForRank_crossV[meanLineMin, ],
-  #  IndexForRank_crossV[i,], paired = TRUE)$p.value
-  # Size of validation set is not equal, in particular if there are
-  # factor covariates. t.test is thus weighted accordingly
-  #   for (i in c(1:nrow(IndexForRank_crossV))[orderModels]) {
-  #   ttest <- weights::wtd.t.test(x = IndexForRank_crossV[meanLineMin, ] -
-  #     IndexForRank_crossV[i,], y = 0, weight = saveAlea.nb,
-  #     mean1 = TRUE)$coefficients["p.value"]
-  #     if (is.na(ttest) == TRUE) {
-  #       Line_keep <- c(Line_keep, i)
-  #     } else {
-  #       if (ttest >= lim_pvalue_final) {
-  #         Line_keep <- c(Line_keep, i)
-  #       } else {
-  #         break
-  #       }
-  #     }
-  #   }
-  #   if (length(Line_keep) > 30) {
-  #     Line_keep <- Line_keep[1:30]
-  #   }
-
-
   # Figures of ranks on Percent Errors ----
   if (plot)
   {
@@ -325,9 +315,6 @@ ModelOrder <- function(saveWD, plot, zip.file = TRUE, cl = NULL)
               pch = 20, cex = 0.5, yaxt = "n", xaxt = "n",
               outline = TRUE, add = TRUE)
     })
-    #
-    #         boxplot(t(DiffTo1$comp.n),
-    #           border = c("black", "forestgreen")[1 + best.distri$p.min.test], pch = 20, cex = 0.5)
 
     points(DiffTo1$means, col = "green", pch = 20, cex = 0.5)
     abline(h = 0, col = "grey", lty = "dashed")
@@ -363,7 +350,7 @@ ModelOrder <- function(saveWD, plot, zip.file = TRUE, cl = NULL)
     # reduce use of RAM
     res <- apply(t(1:nrow(IndexForRank_crossV.plot)), 2, function(x) {
       boxplot(IndexForRank_crossV.plot[x, ], at = x, pch = 20,
-              col =  c("black", "forestgreen")[1 + x %in% Line_keep],
+              col =  c("grey", "forestgreen")[1 + x %in% Line_keep],
               border = c("black", heat.colors(length(Line_keep)))[
                 c(which(Line_keep %in% x) + 1, 1)[1]], yaxt = "n", xaxt = "n",
               outline = FALSE, add = TRUE)
@@ -817,7 +804,8 @@ ModelResults <- function(saveWD, plot, Num = NULL, model = NULL,
   message("Image outputs will be saved in ", saveWD)
 
   # Load information
-  load(paste0(saveWD, "/Allinfo_all.RData"))
+  # load(paste0(saveWD, "/Allinfo_all.RData"))
+  Allinfo_all <- readr::read_rds(paste0(saveWD, "/Allinfo_all.rds"))
   datatype <- Allinfo_all$datatype
 
   nbclust <- modelselect_opt$nbclust
@@ -908,7 +896,8 @@ ModelResults <- function(saveWD, plot, Num = NULL, model = NULL,
   aov_save <- as.data.frame(matrix(ncol = 5, nrow = length(factlist)))
   rownames(aov_save) <- factlist
   # For crossV indices
-  load(file = paste0(saveWD, "/saveAleaM1.RData"))
+  # load(file = paste0(saveWD, "/saveAleaM1.RData"))
+  saveAlea <- readr::read_rds(paste0(saveWD, "/saveAleaM1.rds"))
   RMSE_crossV_save <- matrix(0, nrow = length(factlist), ncol = 2)
   if (cl_inside) {
     cl <- parallel::makePSOCKcluster(nbclust)

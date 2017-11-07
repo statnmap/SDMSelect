@@ -111,9 +111,12 @@ findBestModel <- function(x, datatype, corSpearman,
   }
 
   set.seed(seed)
-  if (!is.null(restart) & file.exists(paste0(saveWD, "/saveAleaM1.RData"))) {
-    load(paste0(saveWD, "/saveAleaM1.RData"))
-    load(paste0(saveWD, "/saveAlea.nbM1.RData"))
+  # if (!is.null(restart) & file.exists(paste0(saveWD, "/saveAleaM1.RData"))) {
+  if (!is.null(restart) & file.exists(paste0(saveWD, "/saveAleaM1.rds"))) {
+    # load(paste0(saveWD, "/saveAleaM1.RData"))
+    saveAlea <- readr::read_rds(paste0(saveWD, "/saveAleaM1.rds"))
+    # load(paste0(saveWD, "/saveAlea.nbM1.RData"))
+    saveAlea.nb <- readr::read_rds(paste0(saveWD, "/saveAlea.nbM1.rds"))
     warning("If you changed part of the dataset, you should remove saveAlea*.RData files before running this script")
   } else {
     # Generate 10 samples for a 10-fold cross-validation ----
@@ -186,7 +189,8 @@ findBestModel <- function(x, datatype, corSpearman,
   # Save critical information for output analysis ------------------------------
   Allinfo_all <- list(data = x, datatype = datatype, modeltypes = modeltypes,
                       MaxDist = MaxDist, Phi.lim = Phi, fixXI = fixXI, Interaction = Interaction)
-  save(Allinfo_all, file = paste0(saveWD, "/Allinfo_all.RData"))
+  # save(Allinfo_all, file = paste0(saveWD, "/Allinfo_all.RData"))
+  readr::write_rds(Allinfo_all, paste0(saveWD, "/Allinfo_all.rds"))
 
   if (!is.null(restart)) {
     all_datac <- restart
@@ -395,12 +399,6 @@ findBestModel <- function(x, datatype, corSpearman,
         } else {
           test_name_list[[nb]] <- test_name_tmp4[which(tmp == 0), ]
         }
-        # Remove those that produce non convergence for n=1 : NaN.covar
-        # if(length(which(!test_name_list[[nb]][,nb] %in% NaN.covar)) != 0){
-        # test_name_list[[nb]] <-
-        # test_name_list[[nb]][which(!test_name_list[[nb]][,nb] %in%
-        # NaN.covar),] } else { break # Go to the next step of the upper loop
-        # as there is no other model to fit }
       }  # end of nb>= 2
 
       # if there is only one model left
@@ -836,12 +834,6 @@ findBestModel <- function(x, datatype, corSpearman,
                 border = c("black", "forestgreen")[1 + best.distri$p.min.test[order(best.distri$orderModels)]],
                 col = c("grey", "green")[1 + best.distri$p.min.test[order(best.distri$orderModels)]])
         graphics::points(best.distri$orderModels[1], 0, pch = 20, col = "red", cex = 2)
-
-        #         boxplot(t(OrderIndexForRank_crossV), ylim = c(min(OrderIndexForRank_crossV,
-        #           na.rm = TRUE), quantile(c(OrderIndexForRank_crossV),
-        #           probs = 0.95, na.rm = TRUE)), pch = 20, xlim = c(1, length(OrderIndexForRank_crossVMean)))
-        #         points(OrderIndexForRank_crossVMean, pch = 20, col = "red",
-        #           cex = 1)
       }
 
 
@@ -855,7 +847,7 @@ findBestModel <- function(x, datatype, corSpearman,
         test_factors_all_nb[, i] <- apply(t(test_factors_all[[nb]][,i]), 2,
                                           function(x) {which(allParamN %in% x)})
       }
-
+      # Remove duplicates in n_keep. Only possible if Interaction is TRUE
       if (nb == 1) {
         n_keep[[nb]] <- t(t(test_factors_all_nb[Line_keep, ]))
       } else {
@@ -863,40 +855,40 @@ findBestModel <- function(x, datatype, corSpearman,
           n_keep[[nb]] <- t(test_factors_all_nb[Line_keep, ])
         } else {
           n_keep_A <- test_factors_all_nb[Line_keep, ]
-          n_keep[[nb]] <- n_keep_A[which(duplicated(
-            apply(n_keep_A, 1, function(x) paste(x, collapse = "-"))) == FALSE),
-                                   ]
+          noDup <- which(
+            !duplicated(
+              apply(n_keep_A, 1,
+                    function(x) paste(x, collapse = "-"))
+            ))
+          Line_keep <- Line_keep[noDup]
+          n_keep[[nb]] <- n_keep_A[noDup,]
         }
       }
-      # Remove duplicates in n_keep. Only possible if Interaction is TRUE
       if (is.null(nrow(n_keep[[nb]]))) {
         n_keep[[nb]] <- t(n_keep[[nb]])
       }
 
-
-
+      # if not enough models, add the other good ones
       if (nrow(n_keep[[nb]]) < MinNbModel & length(best.distri$orderModels) != 1) {
+        allnoDup <- which(!duplicated(
+          apply(test_factors_all_nb, 1,
+                function(x) paste(x, collapse = "-"))[
+                  best.distri$orderModels]))[
+                    1:min(length(best.distri$orderModels), MinNbModel)]
+        Line_keep <- best.distri$orderModels[allnoDup]
         if (nb == 1) {
-          n_keep_B <- t(t(t(t(test_factors_all_nb[
-            best.distri$orderModels,
-            ]))[which(duplicated(
-              apply(test_factors_all_nb, 1,
-                    function(x) paste(x, collapse = "-"))[best.distri$orderModels]) ==
-                FALSE)[1:min(length(best.distri$orderModels), MinNbModel)], ]))
+          n_keep_B <- t(t(test_factors_all_nb[
+            best.distri$orderModels[allnoDup],
+            ]))
         } else {
-          n_keep_B <- test_factors_all_nb[best.distri$orderModels, ][
-            which(duplicated(
-              apply(test_factors_all_nb, 1,
-                    function(x) paste(x, collapse = "-"))[best.distri$orderModels]) ==
-                FALSE)[1:min(length(best.distri$orderModels), MinNbModel)], ]
+          n_keep_B <- test_factors_all_nb[
+            best.distri$orderModels[allnoDup], ]
         }
         n_keep[[nb]] <- n_keep_B
       }
 
       if (verbose >= 1) {
         print(paste("n_keep with ", nb, "covariates (top 10)"))
-        # print(lapply(n_keep,function(x) apply(x,2,function(y)
-        # allParamN[as.numeric(as.character(y))])))
         if (nrow(n_keep[[nb]]) == 1) {
           allParamN[as.numeric(as.character(n_keep[[nb]]))]
         } else {
@@ -916,28 +908,58 @@ findBestModel <- function(x, datatype, corSpearman,
 
       # __Save outputs at each iteration ----
       # Maybe usefull if procedure stops in the middle of the loop
-      save(Allinfo, file = paste0(saveWD, "/AllinfoM", n_datac, ".RData"))
-      save(resAIC_save, file = paste0(saveWD, "/resAIC_saveM", n_datac, ".RData"))
+      # save(Allinfo, file = paste0(saveWD, "/AllinfoM", n_datac, ".RData"))
+      # save(saveAlea, file = paste0(saveWD, "/saveAleaM", n_datac, ".RData"))
+      readr::write_rds(saveAlea, paste0(saveWD, "/saveAleaM", n_datac, ".rds"))
+      # save(saveAlea.nb, file = paste0(saveWD, "/saveAlea.nbM", n_datac, ".RData"))
+      readr::write_rds(saveAlea.nb, paste0(saveWD, "/saveAlea.nbM", n_datac, ".rds"))
+
+      # /!\ Only save results of best models at each iteration /!\
+      resAIC_save[[nb]] <- resAIC_save[[nb]][Line_keep]
       if (grepl("TweedGLM|KrigeGLM", modeltype)) {
-        save(resParam_save,
-             file = paste0(saveWD, "/resParam_saveM", n_datac, ".RData"))
+        resParam_save <- resParam_save[Line_keep]
       }
-      save(saveAlea, file = paste0(saveWD, "/saveAleaM", n_datac, ".RData"))
-      save(saveAlea.nb, file = paste0(saveWD, "/saveAlea.nbM", n_datac, ".RData"))
-      save(test_models, file = paste0(saveWD, "/test_modelsM", n_datac, ".RData"))
-      save(test_factors_all, file = paste0(saveWD, "/test_factors_allM", n_datac,
-                                           ".RData"))
-      save(Output_models, file = paste0(saveWD, "/Output_modelsM", n_datac,
-                                        ".RData"))
-      save(n_keep, file = paste0(saveWD, "/n_keepM", n_datac, ".RData"))
-      save(test_name_list, file = paste0(saveWD, "/test_name_listM", n_datac,
-                                         ".RData"))
+      test_models[[nb]] <- as.matrix(as.data.frame(test_models[[nb]][Line_keep,]))
+      test_factors_all[[nb]] <- as.matrix(data.frame(test_factors_all[[nb]][Line_keep,]))
+      Output_models[[nb]] <- Output_models[[nb]][,Line_keep,]
+      if (grepl("PA|TweedGLM", modeltype)) {
+        BestTHD_crossV[[nb]] <- BestTHD_crossV[[nb]][Line_keep]
+        DiffSelSpeTHD_crossV[[nb]] <- DiffSelSpeTHD_crossV[[nb]][Line_keep,]
+      }
+
+      readr::write_rds(
+        resAIC_save,
+        paste0(saveWD, "/resAIC_saveM", n_datac, ".rds"))
+      # save(resAIC_save, file = paste0(saveWD, "/resAIC_saveM", n_datac, ".RData"))
+      if (grepl("TweedGLM|KrigeGLM", modeltype)) {
+        readr::write_rds(resParam_save,
+                         paste0(saveWD, "/resParam_saveM", n_datac, ".rds"))
+        #save(resParam_save,
+        #     file = paste0(saveWD, "/resParam_saveM", n_datac, ".RData"))
+      }
+      # save(test_models, file = paste0(saveWD, "/test_modelsM", n_datac, ".RData"))
+      readr::write_rds(test_models, paste0(saveWD, "/test_modelsM", n_datac, ".rds"))
+      # No need to save
+      #save(test_factors_all, file = paste0(saveWD, "/test_factors_allM", n_datac,
+      #                                     ".RData"))
+      #save(Output_models,
+      #     file = paste0(saveWD, "/Output_modelsM", n_datac, ".RData"))
+      readr::write_rds(Output_models,
+                       paste0(saveWD, "/Output_modelsM", n_datac, ".rds"))
+      # No need to save
+      # save(n_keep, file = paste0(saveWD, "/n_keepM", n_datac, ".RData"))
+      # save(test_name_list,
+      # file = paste0(saveWD, "/test_name_listM", n_datac, ".RData"))
 
       if (grepl("PA|TweedGLM", modeltype)) {
-        save(BestTHD_crossV, file = paste0(saveWD, "/BestTHD_crossVM", n_datac,
-                                           ".RData"))
-        save(DiffSelSpeTHD_crossV, file = paste0(saveWD, "/DiffSelSpeTHD_crossVM",
-                                                 n_datac, ".RData"))
+        # save(BestTHD_crossV,
+        #      file = paste0(saveWD, "/BestTHD_crossVM", n_datac, ".RData"))
+        readr::write_rds(BestTHD_crossV,
+                         paste0(saveWD, "/BestTHD_crossVM", n_datac, ".rds"))
+        # save(DiffSelSpeTHD_crossV,
+        #      file = paste0(saveWD, "/DiffSelSpeTHD_crossVM", n_datac, ".RData"))
+        readr::write_rds(DiffSelSpeTHD_crossV,
+                         paste0(saveWD, "/DiffSelSpeTHD_crossVM", n_datac, ".rds"))
       }
 
 

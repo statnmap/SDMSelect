@@ -39,6 +39,7 @@ Imports:
     planor,
     plyr,
     png,
+    purrr,
     raster,
     readr,
     rgdal,
