@@ -18,7 +18,7 @@ data.new <- Prepare_dataset(
 ## ------------------------------------------------------------------------
 corSpearman <- Param_corr(
   x = data.new, rm = 1, thd = 0.7, visual = FALSE,
-  plot = TRUE, img.size = 5)
+  plot = TRUE, saveWD = tmpdir, img.size = 5)
 
 
 ## ------------------------------------------------------------------------
