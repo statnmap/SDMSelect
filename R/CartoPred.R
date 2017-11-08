@@ -467,6 +467,7 @@ Map_predict <- function(object, saveWD, mask = NULL, Num = NULL,
 #' category raster, you can not do it. With `SDMSelect::gplot_data`, you retrieve your
 #' raster as a data.frame that can be modified as wanted using `dplyr` and
 #' then plot in `ggplot` using `geom_tile`.
+#' If Raster has levels, they will be joined to the final tibble.
 #'
 #' @export
 
@@ -474,9 +475,14 @@ gplot_data <- function(x, maxpixels = 50000)  {
   x <- raster::sampleRegular(x, maxpixels, asRaster = TRUE)
   coords <- raster::xyFromCell(x, seq_len(raster::ncell(x)))
   ## Extract values
-  dat <- raster::stack(as.data.frame(raster::getValues(x)))
+  dat <- utils::stack(as.data.frame(raster::getValues(x)))
   names(dat) <- c('value', 'variable')
 
-  dat <- dplyr::as.tbl(cbind(coords, dat))
+  dat <- dplyr::as.tbl(data.frame(coords, dat))
+
+  if (!is.null(levels(x))) {
+    dat <- dplyr::left_join(dat, levels(x)[[1]],
+                            by = c("value" = "ID"))
+  }
   dat
 }

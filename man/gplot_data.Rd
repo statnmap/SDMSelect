@@ -23,4 +23,5 @@ If you want to add other information or transform your raster as a
 category raster, you can not do it. With `SDMSelect::gplot_data`, you retrieve your
 raster as a data.frame that can be modified as wanted using `dplyr` and
 then plot in `ggplot` using `geom_tile`.
+If Raster has levels, they will be joined to the final tibble.
 }

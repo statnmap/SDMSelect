@@ -54,6 +54,7 @@ Imports:
     tcltk,
     tidyr,
     tweedie,
+    utils,
     yarrr
 Suggests: 
     knitr, 
