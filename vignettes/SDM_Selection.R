@@ -131,10 +131,16 @@ predrNames <- system.file("SDM_Selection", "predrNames.rds", package = "SDMSelec
 names(pred.r) <- readr::read_rds(predrNames)
 
 ## ---- out.width='60%', fig.height=6--------------------------------------
-rasterVis::gplot(raster::raster(pred.r, "resp.fit")) +
-  geom_tile(aes(fill = value)) +
+# Get partial raster data to plot in ggplot
+pred.r.gg <- gplot_data(pred.r)
+# Plot
+ggplot() +
+  geom_tile(
+    data = dplyr::filter(pred.r.gg, variable == "resp.fit"), 
+            aes(x = x, y = y, fill = value)) +
   scale_fill_gradient("Probability", low = 'yellow', high = 'blue') +
   coord_equal()
+
 
 ## ---- out.width='90%', fig.width=9, fig.height=4.5-----------------------
 rasterVis::gplot(raster::dropLayer(pred.r, which(!names(pred.r) %in% c("Q5", "Q95")))) +

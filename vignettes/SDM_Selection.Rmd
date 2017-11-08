@@ -267,14 +267,21 @@ predrNames <- system.file("SDM_Selection", "predrNames.rds", package = "SDMSelec
 names(pred.r) <- readr::read_rds(predrNames)
 ```
 
+The first output of interest is the first layer `resp.fit` of the `RasterStack`. Here, the predicted probability of presence. *`SDMSelect` is provided with `gplot_data`, a modified version of `rasterVis::gplot` which allows to prepare a (part of) raster data for ggplot visualisation instead of visualizing it directly. Maybe useful in some situations.*
 
-The first output of interest is the first layer `resp.fit` of the `RasterStack`. Here, the predicted probability of presence.  
 ```{r, out.width='60%', fig.height=6}
-rasterVis::gplot(raster::raster(pred.r, "resp.fit")) +
-  geom_tile(aes(fill = value)) +
+# Get partial raster data to plot in ggplot
+pred.r.gg <- gplot_data(pred.r)
+# Plot
+ggplot() +
+  geom_tile(
+    data = dplyr::filter(pred.r.gg, variable == "resp.fit"), 
+            aes(x = x, y = y, fill = value)) +
   scale_fill_gradient("Probability", low = 'yellow', high = 'blue') +
   coord_equal()
+
 ```
+
 
 ### Uncertainties
 Function `Map_predict` also calculates different indices for the assessment of the uncertainty of prediction. For instance, minimum (quantile = 5%) and maximum (quantile = 95%) of possible predictions. (*This is based on quantiles predictions in the scale of the link function, then transformed in the scale of the response.*)  
