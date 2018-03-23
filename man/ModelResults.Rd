@@ -5,7 +5,8 @@
 \title{Study the outputs and predictions of a specific model}
 \usage{
 ModelResults(saveWD, plot, Num = NULL, model = NULL, modeltype = NULL,
-  powerXI = NULL, Marginals = FALSE, zip.file = TRUE, cl = NULL)
+  powerXI = NULL, Marginals = FALSE, zip.file = TRUE, cl = NULL,
+  n.ech.marginal = 5000)
 }
 \arguments{
 \item{saveWD}{directory where outputs of the cross-validation procedure have
@@ -39,6 +40,9 @@ FALSE for no zipfile output, or path to a new zip file}
 \item{cl}{a cluster as made with \code{\link[snow]{makeCluster}}.
 If cl is empty, nbclust in \code{\link{modelselect_opt}} will be used
 to create a cluster.}
+
+\item{n.ech.marginal}{5000 by default. Number of random samples for marginals
+estimations.}
 }
 \description{
 Study the outputs and predictions of a specific model

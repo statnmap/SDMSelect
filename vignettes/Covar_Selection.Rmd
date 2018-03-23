@@ -120,7 +120,7 @@ We can choose one model, the best one here, and create a set of figure outputs t
 ```{r, message=FALSE, results='hide', eval=FALSE}
 Num.Best <- BestModels$VeryBestModels_crossV$Num[1]
 res.file <- ModelResults(saveWD = tmpdir, plot = TRUE, 
-                 Num = Num.Best)
+                 Num = Num.Best, Marginals = TRUE)
 ```
 
 In the case of a model with positive values as here, the outputs are the following. *If the best model is with a log-transformation, figures are mainly created in the log-scale*

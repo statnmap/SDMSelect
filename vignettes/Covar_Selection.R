@@ -42,5 +42,5 @@ BestModels <- readr::read_rds(BestModelsFile)
 ## ---- message=FALSE, results='hide', eval=FALSE--------------------------
 #  Num.Best <- BestModels$VeryBestModels_crossV$Num[1]
 #  res.file <- ModelResults(saveWD = tmpdir, plot = TRUE,
-#                   Num = Num.Best)
+#                   Num = Num.Best, Marginals = TRUE)
 

@@ -36,7 +36,6 @@ Imports:
     maptools,    
     methods,
     mgcv (>= 1.8-19),
-    planor,
     plyr,
     png,
     purrr,

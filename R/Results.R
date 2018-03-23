@@ -763,6 +763,8 @@ model_select <- function(saveWD, new.data, Num = NULL, model = NULL,
 #' @param cl a cluster as made with \code{\link[snow]{makeCluster}}.
 #' If cl is empty, nbclust in \code{\link{modelselect_opt}} will be used
 #' to create a cluster.
+#' @param n.ech.marginal 5000 by default. Number of random samples for marginals
+#' estimations.
 #'
 #' @importFrom magrittr "%>%"
 #' @importFrom sp spTransform CRS
@@ -776,8 +778,9 @@ model_select <- function(saveWD, new.data, Num = NULL, model = NULL,
 
 ModelResults <- function(saveWD, plot, Num = NULL, model = NULL,
                              modeltype = NULL, powerXI = NULL, Marginals = FALSE,
-                             zip.file = TRUE, cl = NULL)
+                             zip.file = TRUE, cl = NULL, n.ech.marginal = 5000)
 {
+  # browser()
   if (utils::file_test("-f", saveWD) & file.exists(saveWD) & grepl("zip", saveWD)) {
     if (zip.file == TRUE) {zip.file <- saveWD}
     utils::unzip(saveWD, exdir = gsub(".zip", "", saveWD))
@@ -1246,18 +1249,21 @@ ModelResults <- function(saveWD, plot, Num = NULL, model = NULL,
     names(AllFact) <- cov_used
 
     # Create the fractionnar plan for predictions
-    frac.key <- planor::planor.designkey(
-      factors = names(AllFact),
-      nlevels = lengths(AllFact),
-      model = as.formula(paste0("~(", paste(names(AllFact), collapse = "+"), ")^2")),
-      base = as.formula(paste0("~(", paste(names(AllFact), collapse = "+"), ")"))
-    )
-
-    frac.plan <- planor::planor.design(frac.key)
-
-    GridFact <- as.data.frame(apply(t(1:length(AllFact)), 2, function(x) {
-      AllFact[[x]][frac.plan@design[,x]]
-    }))
+    # -- Remove as planor has been removed from CRAN --
+    # frac.key <- planor::planor.designkey(
+    #   factors = names(AllFact),
+    #   nlevels = lengths(AllFact),
+    #   model = as.formula(paste0("~(", paste(names(AllFact), collapse = "+"), ")^2")),
+    #   base = as.formula(paste0("~(", paste(names(AllFact), collapse = "+"), ")"))
+    # )
+    #
+    # frac.plan <- planor::planor.design(frac.key)
+    #
+    # GridFact <- as.data.frame(apply(t(1:length(AllFact)), 2, function(x) {
+    #   AllFact[[x]][frac.plan@design[,x]]
+    # }))
+    #
+    GridFact <- purrr::map_df(AllFact, ~sample(.x, n.ech.marginal, replace = TRUE))
 
     if (sum(IsDataNumeric) != length(!IsDataNumeric)) {
       GridFact <- GridFact %>%
@@ -1266,7 +1272,7 @@ ModelResults <- function(saveWD, plot, Num = NULL, model = NULL,
     }
     names(GridFact) <- names(AllFact)
     # head(GridFact)
-    rm(frac.key, frac.plan); gc()
+    # rm(frac.key, frac.plan); gc()
 
     # Calculate predictions while accounting for uncertainty of prediction
     if (grepl("PA", modeltype)) {
