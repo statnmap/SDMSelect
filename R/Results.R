@@ -1582,7 +1582,9 @@ ModelResults <- function(saveWD, plot, Num = NULL, model = NULL,
         unique(unlist(y)),
         CovForMeanPred[,cov_used[-which(cov_used == f)]],
         cov = f,
-        cov.val = as.numeric(as.character(unique(unlist(y)))))
+        # cov.val = as.numeric(as.factor(as.character(unique(unlist(y))))))
+        cov.val = unique(unlist(y))
+        )
       names(res)[1] <- f
     }
     res %>%
@@ -1611,6 +1613,11 @@ ModelResults <- function(saveWD, plot, Num = NULL, model = NULL,
              "-CovForMeanPred_Marginals_", model_selected$Num, ".png"),
            width = 16, height = 16*(figdim$nrow / figdim$ncol), units = "cm",
            dpi = 300)
+
+    readr::write_rds(AllFact.simple.tbl,
+                     paste0(
+                       saveWD, "/", basename(saveWD),
+                       "-CovForMeanPred_Marginals_", model_selected$Num, ".rds"))
   }
 
   # Comparison of predictions against observations ====

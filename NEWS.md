@@ -1,5 +1,6 @@
 # SDMSelect 0.1.3.9000
 
+- Allow for factors in presence-absence models (transformed as 0/1)
 - Correct options with version 0.1.0 of {GlobalOptions}
 - fixed `NaN` could be returned when comparing distribution with itself in `best_distri`.
 - Reduce number of outputs saved at each iteration to only the best ones. With a lot of covariates tested, saving all model tested was too huge. Too keep more models, `modelselect_opt$lim_pvalue` can be lowered.

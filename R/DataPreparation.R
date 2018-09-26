@@ -110,10 +110,24 @@ Prepare_dataset <- function(x, var = 1, cov = 2:ncol(x), coords,
   # First column is the y variable to be fitted
   names(Y_data_sp)[1] <- "dataY"
 
-  if (grepl("PA", datatype) & length(which(!Y_data_sp$dataY %in% c(0,1))) > 0) {
+  if (grepl("PA", datatype) & any(!Y_data_sp$dataY %in% c(0,1))) {
     # Transform data as 0/1
-    message("dataY was not 0/1, it has been transformed as 0/1 data")
+    if (is.character(Y_data_sp$dataY) | is.factor(Y_data_sp$dataY)) {
+      if (length(unique(Y_data_sp$dataY)) != 2) {
+       stop("Only two levels are possible for presence-absence models")
+      }
+      levels <- levels(as.factor(Y_data_sp$dataY))
+      message(levels[1], " was changed as 0, and ",
+              levels[2], " was changed as 1")
+      Y_data_sp$dataY <- as.numeric(as.factor(Y_data_sp$dataY)) - 1
+    } else if (is.numeric(Y_data_sp$dataY)) {
+    message("dataY was not 0/1, all numeric values above 0 were transformed as 1 for Presence-absence models")
     Y_data_sp$dataY <- 1 * (Y_data_sp$dataY != 0)
+    } else {
+      stop("Values in dataY were not numeric, character or factor with two levels.")
+    }
+  } else if (any(!is.numeric(Y_data_sp$dataY))) {
+   stop("Values in dataY should be numeric for non PA models")
   }
 
   # List names of covariates
@@ -890,11 +904,16 @@ Param_corr <- function(x, rm = NULL, visual = FALSE, thd = 0.7, plot = TRUE, sav
                         width = nchar(ncol(physParam_NewSp)),
                         flag = "0"), names(physParam_NewSp))
   # Change factor as numeric for correlation only
+  if (any(sapply(physParam_NewSp, function(x) !is.numeric(x)))) {
+    message("Variables are transformed as numeric for correlation tests only. ",
+            "This may not be optimal, but this will not alter the rest of the analysis")
+  }
+
   fig.tmp <- physParam_NewSp %>%
     dplyr::mutate_at(.vars = grep("^factor_", names(physParam_NewSp)),
                      .funs = function(x) as.numeric(as.factor(x))) %>%
-    dplyr::mutate_if(sapply(., is.character), as.numeric) %>%
-    dplyr::mutate_if(sapply(., is.factor), as.numeric)
+    dplyr::mutate_if(sapply(., function(x) !is.numeric(x)), as.numeric)# %>%
+    # dplyr::mutate_if(sapply(., is.factor), as.numeric)
 
   # Calculate correlation with corrr
   corSpearman.tmp <- fig.tmp %>%

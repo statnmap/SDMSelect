@@ -1,68 +1,3 @@
-#' Internal function for global options
-#' @importFrom GlobalOptions set_opt .v
-#' @keywords internal
-#' @seealso \code{\link{modelselect_opt}}
-lt <- set_opt(
-  MPIcalc = list(.value = FALSE),
-  nbclust = list(.value = function() parallel::detectCores()),
-  graph = list(.value = FALSE),
-  datatype = list(.value = "ContPosNull"),
-  modeltypes = list(.value = function()
-    if (.v$datatype == "PA") {
-      c("PAGLM", "PAGLMns", "PA")
-    } else if (.v$datatype == "Cont") {
-      c("ContGLM", "ContGLMns", "Cont")
-    } else if (.v$datatype == "ContPosNull") {
-      c("LogContGLM", "GammaGLM", "ContGLM",
-        "LogContGLMns", "GammaGLMns", "ContGLMns",
-        "LogCont", "Gamma", "TweedGLM", "TweedGLMns",
-        "Cont")
-    } else if (.v$datatype == "Count") {
-      c("CountGLM", "CountGLMns", "Count")
-    } else if (.v$datatype == "TweedGLM") {
-      c("TweedGLMns", "TweedGLM")
-    } else if (.v$datatype == "PosCount") {
-      c("PosCountGLM", "PosCountGLMns", "PosCount")
-    } else if (.v$datatype == "KrigeGLM") {
-      c("KrigeGLM")
-    } else if (.v$datatype == "KrigeGLM.dist") {
-      c("TweedGLM", "KrigeGLM.dist.lambda", "KrigeGLM.dist")}),
-  MaxDist = list(.value = function()
-    ifelse(grepl("KrigeGLM", .v$datatype), 6000, NA)),
-  Phi = list(.value = function()
-    ifelse(grepl("KrigeGLM", .v$datatype), c(1000, .v$MaxDist), NA)),
-  Model = list(.value = function()
-    if (.v$datatype == "KrigeGLM") {"exponential"
-    } else if (.v$datatype == "KrigeGLM.dist") {
-      c(NA, "exponential", "exponential")
-    } else {rep(NA, length(.v$modeltypes))}),
-    Lambda = list(.value = function() if (.v$datatype == "KrigeGLM") {1
-    } else if (.v$datatype == "KrigeGLM.dist") {
-      c(NA, -1.5, 1)
-    } else {rep(NA, length(.v$modeltypes))}),
-    fix.Lambda = list(.value = function() if (.v$datatype == "KrigeGLM") {1
-    } else if (.v$datatype == "KrigeGLM.dist") {
-      c(TRUE, FALSE, TRUE)
-    } else {rep(TRUE, length(.v$modeltypes))}),
-  lcc_proj = list(.value = "+init=epsg:2154"),
-  Max_nb_Var = list(.value = 7),
-  Max_K = list(.value = 5),
-  Max_K_te = list(.value = 3),
-  Max_K_Poly = list(.value = 4),
-  fixXI = list(.value = 0),
-  Interaction = list(.value = function()
-    ifelse(grepl("KrigeGLM", .v$datatype), FALSE, FALSE)),
-  MinNbModel = list(.value = 4),
-  k_fold = list(.value = 5),
-  N_k_fold = list(.value = 20),
-  nbMC = list(.value = function() .v$N_k_fold*.v$k_fold),
-  seqthd = list(.value = seq(0.1, 0.9, 0.01)),
-  lim_pvalue = list(.value = 0.001),
-  lim_pvalue_final = list(.value = 0.005),
-  Y.max = list(.value = function() ifelse(grepl("PA", .v$datatype), 1, 2)),
-  seed = list(.value = 20)
-)
-
 #' Modelselect configuration file
 #'
 #' @param RESET reset options to default
@@ -241,3 +176,9 @@ modelselect_opt <- set_opt(
   Y.max = list(.value = function() ifelse(grepl("PA", .v$datatype), 1, 2)),
   seed = list(.value = 20)
 )
+
+#' Test internal modelopt
+#'
+test_opt <- function() {
+  modelselect_opt$Max_nb_Var
+}

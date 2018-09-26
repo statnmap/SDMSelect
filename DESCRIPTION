@@ -22,13 +22,13 @@ BugReports: https://github.com/statnmap/SDMSelect/issues
 License: GPL (>= 3) | file LICENSE
 Encoding: UTF-8
 LazyData: true
+Depends: GlobalOptions, R (>= 3.3.0)
 Imports:
     corrr,
     corrplot (>= 0.82),
     dplyr (>= 0.7),
     geoR,    
     ggplot2,
-    GlobalOptions,
     graphics,
     magrittr,
     mapdata,
