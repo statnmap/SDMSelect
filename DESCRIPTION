@@ -19,7 +19,6 @@ Description: Select GAM, GLM models using a multiple k-fold cross-validation and
   is used to map species distribution along with maps of uncertainty.
 URL: https://github.com/statnmap/SDMSelect
 BugReports: https://github.com/statnmap/SDMSelect/issues
-Depends: GlobalOptions, R (>= 3.3.0)
 License: GPL (>= 3) | file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -29,6 +28,7 @@ Imports:
     dplyr (>= 0.7),
     geoR,    
     ggplot2,
+    GlobalOptions,
     graphics,
     magrittr,
     mapdata,
@@ -61,4 +61,4 @@ Suggests:
     dismo,
     rasterVis
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0

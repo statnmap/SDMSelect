@@ -1,3 +1,6 @@
+^inst/SDM_Selection/SDM_Selection\.html$
+^inst/Covar_Selection/Covar_Selection\.html$
+^\.devstuff_history\.R$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 R\_0.1.0

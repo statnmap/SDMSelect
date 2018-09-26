@@ -87,9 +87,10 @@ Procedure selects combination of covariates in each iteration from one covariate
 The output of `findBestModel` function is the link to a zipped file of all outputs saved in the `saveWD` directory.
 
 ```{r, eval=FALSE}
-res.file <- findBestModel(x = data.new, datatype = "ContPosNull", 
-                          corSpearman = corSpearman, saveWD = tmpdir, 
-                          verbose = 1)
+res.file <- findBestModel(
+  x = data.new, datatype = "ContPosNull", 
+  corSpearman = corSpearman, saveWD = tmpdir, 
+  verbose = 1)
 ```
 
 ## Order models according to quality of prediction

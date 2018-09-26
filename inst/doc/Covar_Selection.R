@@ -28,9 +28,10 @@ modelselect_opt$datatype <- "ContPosNull"
 modelselect_opt$modeltypes <- modelselect_opt$modeltypes[c(1, 5, 11)]
 
 ## ---- eval=FALSE---------------------------------------------------------
-#  res.file <- findBestModel(x = data.new, datatype = "ContPosNull",
-#                            corSpearman = corSpearman, saveWD = tmpdir,
-#                            verbose = 1)
+#  res.file <- findBestModel(
+#    x = data.new, datatype = "ContPosNull",
+#    corSpearman = corSpearman, saveWD = tmpdir,
+#    verbose = 1)
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  BestModels <- ModelOrder(saveWD = res.file, plot = TRUE)

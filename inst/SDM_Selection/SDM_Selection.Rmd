@@ -27,7 +27,8 @@ knitr::opts_chunk$set(
 ## Outlines
 This library has been created for model selection to predict species distributions (Biomass, density or presence/absence). Its final aim is to produce maps of predicted distributions.  
 In this vignette, we use datasets from library `dismo` to show the different possibilities of the library with species distribution modelling, from model selection to predictive mapping. Dataset `bradypus` contains geographic position of species occurence. The different model types available in library `ModelSelect` to predict probability of presence all rely on presence/absence data. As the dataset only contains presence data, we need to create a pseudo-absence set of observations. Here, we do not discuss this method. We just imagine that we have a dataset of real observations of presence and **real observations of absences**, so that we can use presence-absence models.  
-We create a variable of interest (`Obs`) with presences (`1`) and absences (`0`). This is in accordance with our data modelling case `datatype = "PA"` and its sub-cases. For other types of data, refer to the documentation (in particular, options in `modelselect_opt`) to correctly set your modelling parameters.
+We create a variable of interest (`Obs`) with presences (`1`) and absences (`0`). This is in accordance with our data modelling case `datatype = "PA"` and its sub-cases. For other types of data, refer to the documentation (in particular, options in `modelselect_opt`) to correctly set your modelling parameters.  
+*Note that most figures of the vignette are saved in "inst" so that model selection is not run during vignette building. However, code in the vignettes can be run on your own computer and should return the same outputs. To do so, open and run this Rmd file: `r system.file("SDM_Selection", "SDM_Selection.Rmd", package = "SDMSelect")`.*
 
 ## Load libraries and other setup
 ```{r}
@@ -292,13 +293,21 @@ predrNames <- names(pred.r)
 readr::write_rds(predrNames, path = "predrNames.rds")
 ```
 
-The first output of interest is the first layer `resp.fit` of the `RasterStack`. Here, the predicted probability of presence.  
+The first output of interest is the first layer `resp.fit` of the `RasterStack`. Here, the predicted probability of presence. *`SDMSelect` is provided with `gplot_data`, a modified version of `rasterVis::gplot` which allows to prepare a (part of) raster data for ggplot visualisation instead of visualizing it directly. Maybe useful in some situations.*
+
 ```{r, out.width='60%', fig.height=6}
-rasterVis::gplot(raster::raster(pred.r, "resp.fit")) +
-  geom_tile(aes(fill = value)) +
+# Get partial raster data to plot in ggplot
+pred.r.gg <- gplot_data(pred.r)
+# Plot
+ggplot() +
+  geom_tile(
+    data = dplyr::filter(pred.r.gg, variable == "resp.fit"), 
+            aes(x = x, y = y, fill = value)) +
   scale_fill_gradient("Probability", low = 'yellow', high = 'blue') +
   coord_equal()
+
 ```
+
 
 ### Uncertainties
 Function `Map_predict` also calculates different indices for the assessment of the uncertainty of prediction. For instance, minimum (quantile = 5%) and maximum (quantile = 95%) of possible predictions. (*This is based on quantiles predictions in the scale of the link function, then transformed in the scale of the response.*)  

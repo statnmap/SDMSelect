@@ -26,14 +26,17 @@ knitr::opts_chunk$set(
 
 ## Outlines
 This library has been created for model selection to predict species distribution (Biomass, density or presence/absence). Its final aim is to produce maps of predicted distributions. However, the core is a k-fold cross-validation model selection procedure that can be applied to any kind of model, provided that parameters of the selection are well defined.
-We use the classical `cars` dataset to show the different possibilities of the library. The variable of interest is `mpg`. This is a continuous numerical variable, **only positive**. This is in accordance with our data modelling case `datatype = "ContPosNull"` (continuous positive or null) and the model types associated (`modeltypes`). For other types of data, refer to the documentation (in particular, options in `modelselect_opt`) to correctly set your modelling parameters.
+We use the classical `cars` dataset to show the different possibilities of the library. The variable of interest is `mpg`. This is a continuous numerical variable, **only positive**. This is in accordance with our data modelling case `datatype = "ContPosNull"` (continuous positive or null) and the model types associated (`modeltypes`). For other types of data, refer to the documentation (in particular, options in `modelselect_opt`) to correctly set your modelling parameters.  
+*Note that most figures of the vignette are saved in "inst" so that model selection is not run during vignette building. However, code in the vignettes can be run on your own computer and should return the same outputs. To do so, open and run this Rmd file: `r system.file("Covar_Selection", "Covar_Selection.Rmd", package = "SDMSelect")`.*
+
+
 
 ## Load libraries and other setup
 ```{r}
 library(SDMSelect)
 set.seed(50)
 
-# Directory for saving all outputs
+# Temp directory for saving all outputs
 tmpdir <- paste0(tempdir(), "/out_CovarSelection")
 dir.create(tmpdir)
 ```
@@ -116,7 +119,7 @@ We can choose one model, the best one here, and create a set of figure outputs t
 ```{r, message=FALSE, results='hide'}
 Num.Best <- BestModels$VeryBestModels_crossV$Num[1]
 res.file <- ModelResults(saveWD = tmpdir, plot = TRUE, 
-                 Num = Num.Best)
+                 Num = Num.Best, Marginals = TRUE)
 ```
 
 In the case of a model with positive values as here, the outputs are the following. *If the best model is with a log-transformation, figures are mainly created in the log-scale*

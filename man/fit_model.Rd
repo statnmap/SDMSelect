@@ -4,8 +4,8 @@
 \alias{fit_model}
 \title{Function to fit a model among all possible}
 \usage{
-fit_model(x, model, fixXI, modeltype, x_lcc, MaxDist, Phi, Model, fix.lambda,
-  lambda)
+fit_model(x, model, fixXI, modeltype, x_lcc, MaxDist, Phi, Model,
+  fix.lambda, lambda)
 }
 \arguments{
 \item{x}{data.frame or SpatialPointsDataFrame of observations with covariates}
