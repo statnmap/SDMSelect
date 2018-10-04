@@ -34,7 +34,9 @@ findBestModel <- function(x, datatype, corSpearman,
   if (!dir.exists(saveWD)) {dir.create(saveWD)}
 
   if (!missing(datatype)) {
-    modelselect_opt$datatype <- datatype
+    if (datatype != modelselect_opt$datatype) {
+      modelselect_opt$datatype <- datatype
+    }
   } else {
     datatype <- modelselect_opt$datatype
   }
@@ -228,11 +230,13 @@ findBestModel <- function(x, datatype, corSpearman,
         ParamNoClass <- allParamN[-grep("factor_", allParamN)]
       }
       if (length(ParamNoClass) != 0) {
-        for (Pn in 2:Max_K_Poly) {
-          # Add parameters for polynoms to allow different tests on polynom
-          # degrees
-          newParam <- paste0(ParamNoClass, "_P", Pn)
-          allParamN <- c(allParamN, newParam)
+        if (Max_K_Poly >= 2) {
+          for (Pn in 2:Max_K_Poly) {
+            # Add parameters for polynoms to allow different tests on polynom
+            # degrees
+            newParam <- paste0(ParamNoClass, "_P", Pn)
+            allParamN <- c(allParamN, newParam)
+          }
         }
         for (Pn in 1:length(ParamNoClass)) {
           # Remove models where same variables exist with different degrees of
@@ -440,7 +444,7 @@ findBestModel <- function(x, datatype, corSpearman,
                 # if both are factors or in GLM
                 res <- paste(y, collapse = ":")
               }
-              if (grepl("GLM", modeltype)) {
+              if (grepl("GLM", modeltype) & (Max_K_Poly >= 2)) {
                 y2 <- apply(t(y), 2, function(yy) {
                   res2 <- yy
                   res1 <- apply(t(2:Max_K_Poly), 2, function(z) {
@@ -543,8 +547,9 @@ findBestModel <- function(x, datatype, corSpearman,
         }
       }
 
-      # Write models Y ~ param1 + param2 + ...  nb2 <- nb_all[1] x <-
-      # test_factors[[nb2]][120,]
+      # Write models Y ~ param1 + param2 + ...
+      # nb2 <- nb_all[1]
+      # x <- test_factors[[nb2]][102,]
       for (nb2 in nb_all) {
         test_models_tmp[[nb2]] <- apply(
           test_factors[[nb2]], 1,
@@ -552,6 +557,7 @@ findBestModel <- function(x, datatype, corSpearman,
             if (grepl("GLM", modeltype)) {
               x2 <- apply(t(x), 2, function(y) {
                 res <- y
+                if (Max_K_Poly >= 2) {
                 res1 <- apply(t(2:Max_K_Poly), 2, function(z) {
                   if (grepl(paste0("_P", z, "$"), y)) {
                     if (!grepl("ns", modeltype)) {
@@ -568,6 +574,9 @@ findBestModel <- function(x, datatype, corSpearman,
                   }
                   res1
                 })
+                } else {
+                  res1 <- NA
+                }
                 if (sum(is.na(res1)) != length(res1)) {
                   res <- res1[which(!is.na(res1))]
                 }

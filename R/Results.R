@@ -31,7 +31,6 @@
 
 ModelOrder <- function(saveWD, plot, zip.file = TRUE, cl = NULL)
 {
-
   saveWD <- normalizePath(saveWD)
 
   if (utils::file_test("-f", saveWD) & file.exists(saveWD) & grepl("zip", saveWD)) {
@@ -372,12 +371,14 @@ ModelOrder <- function(saveWD, plot, zip.file = TRUE, cl = NULL)
     }
     abline(v = 0.5, col = "red", lwd = 3)
     mtext(modeltypes[1], side = 1, at = 0.5, cex = 1.5)
-    for (i in 1:(length(l_Max_Nb_Var) - 1)) {
-      pos <- cumsum(l_Max_Nb_Var)[i]
-      abline(v = sum(nb_models_per_nb[1:pos]) + 0.5, col = "red",
-             lwd = 3)
-      mtext(modeltypes[i+1], side = 1,
-            at = sum(nb_models_per_nb[1:pos]) + 0.5, cex = 1.5)
+    if (length(l_Max_Nb_Var) > 1) {
+      for (i in 1:(length(l_Max_Nb_Var) - 1)) {
+        pos <- cumsum(l_Max_Nb_Var)[i]
+        abline(v = sum(nb_models_per_nb[1:pos]) + 0.5, col = "red",
+               lwd = 3)
+        mtext(modeltypes[i+1], side = 1,
+              at = sum(nb_models_per_nb[1:pos]) + 0.5, cex = 1.5)
+      }
     }
 
     dev.off()
@@ -541,6 +542,8 @@ ModelOrder <- function(saveWD, plot, zip.file = TRUE, cl = NULL)
     utils::write.table(BestForModeltypes, file = paste0(saveWD, "/", imgprefix,
                                                     "BestForModeltypes.txt"),
                 col.names = TRUE, row.names = FALSE)
+  } else {
+    BestForModeltypes <- VeryBestModels_crossV
   }
   # Zip all outputs in a unique file.
   if (zip.file != FALSE) {
