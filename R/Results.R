@@ -1218,7 +1218,7 @@ ModelResults <- function(saveWD, plot, Num = NULL, model = NULL,
   save(cov_used, file = paste0(saveWD, "/cov_used_", Num, ".RData"))
   save(IsDataNumeric, file = paste0(saveWD, "/IsDataNumeric_", Num, ".RData"))
 
-  if (sum(grepl("factor", cov_used) == sum(!IsDataNumeric)) !=
+  if (sum(grepl("factor", cov_used) == !IsDataNumeric) !=
       length(IsDataNumeric)) {
     warnings("Verify if all factors have been accounted",
              "as factors in the model selection procedure !")
@@ -1565,32 +1565,36 @@ ModelResults <- function(saveWD, plot, Num = NULL, model = NULL,
   }
 
   # Simple Marginals close to mean or 0 (PA) ----
-  AllFact.simple <- lapply(cov_used, function(f) { # f <- cov_used[4]
-    #     y <- Y_data_sample[, which(names(Y_data_sample) == f)]
-    y <- Y_data_sample %>% dplyr::select(dplyr::matches(f))
+  AllFact.simple <- lapply(cov_used, function(covar) { # covar <- cov_used[2]
+    #     y <- Y_data_sample[, which(names(Y_data_sample) == covar)]
+    y <- Y_data_sample %>% dplyr::select(covar)
 
-    if (IsDataNumeric[cov_used == f]) {
+    if (IsDataNumeric[cov_used == covar]) {
       # seq(min(y), max(y), (max(y) - min(y))/)
+      cov.val <- unique(quantile(unlist(y), probs = seq(0, 1, 0.05)))
       res <- data.frame(
-        unique(quantile(unlist(y), probs = seq(0, 1, 0.05))),
-        CovForMeanPred[,cov_used[-which(cov_used == f)]],
-        cov = f,
-        cov.val = unique(quantile(unlist(y), probs = seq(0, 1, 0.05))))
-      names(res)[1] <- f
+        covar = cov.val,
+        CovForMeanPred[,cov_used[-which(cov_used == covar)]],
+        cov = covar,
+        cov.val = as.character(cov.val),
+        type = "numeric")
+      names(res)[1] <- covar
     } else {
       res <- data.frame(
         unique(unlist(y)),
-        CovForMeanPred[,cov_used[-which(cov_used == f)]],
-        cov = f,
+        CovForMeanPred[,cov_used[-which(cov_used == covar)]],
+        cov = covar,
         # cov.val = as.numeric(as.factor(as.character(unique(unlist(y))))))
-        cov.val = unique(unlist(y))
+        cov.val = unique(unlist(y)),
+        type = "character"
         )
-      names(res)[1] <- f
+      names(res)[1] <- covar
     }
     res %>%
       dplyr::mutate_if(is.factor, as.character)
   })
-  AllFact.simple.tbl <- dplyr::as.tbl(do.call(dplyr::bind_rows, AllFact.simple)) %>%
+  AllFact.simple.tbl <- dplyr::as.tbl(
+    do.call(dplyr::bind_rows, AllFact.simple)) %>%
     dplyr::bind_cols(data.frame(predict(modelX, newdata = .,
                                  type = "response", se.fit = TRUE))) %>%
     dplyr::mutate(cov2 = factor(cov, levels = cov_used))
@@ -1598,13 +1602,32 @@ ModelResults <- function(saveWD, plot, Num = NULL, model = NULL,
   if (plot) {
     figdim <- Fig_split(length(cov_used))
 
-    g <- ggplot(AllFact.simple.tbl) +
-      geom_pointrange(aes(x = cov.val, y = fit,
-                          ymin = fit-se.fit,
-                          ymax = fit+se.fit)) +
-      facet_wrap(~cov2, scales = "free_x",
-                 nrow = figdim$nrow,
-                 ncol = figdim$ncol)
+    plot_list <- purrr::map(levels(AllFact.simple.tbl$cov2),
+               ~{
+                 # browser()
+                 AllFact.simple.tbl %>%
+                 dplyr::filter(cov2 == .x) %>%
+                 mutate(cov.val = ifelse(type == "numeric",
+                                          as.numeric(as.character(cov.val)),
+                                          cov.val)) %>%
+                 ggplot() +
+                 geom_pointrange(aes(x = cov.val, y = fit,
+                                     ymin = fit-se.fit,
+                                     ymax = fit+se.fit)) +
+                 facet_wrap(~cov2, scales = "free_x") +
+                   labs(x = NULL)
+                 }
+                 )
+
+    g <- cowplot::plot_grid(plotlist = plot_list, ncol = figdim$ncol)
+
+    # g <- ggplot(AllFact.simple.tbl) +
+    #   geom_pointrange(aes(x = cov.val, y = fit,
+    #                       ymin = fit-se.fit,
+    #                       ymax = fit+se.fit)) +
+    #   facet_wrap(~cov2, scales = "free_x",
+    #              nrow = figdim$nrow,
+    #              ncol = figdim$ncol)
     rm(AllFact.simple)
 
     ggsave(plot = g,

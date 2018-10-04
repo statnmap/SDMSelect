@@ -26,6 +26,7 @@ Depends: GlobalOptions, R (>= 3.3.0)
 Imports:
     corrr,
     corrplot (>= 0.82),
+    cowplot,
     dplyr (>= 0.7),
     geoR,    
     ggplot2,
