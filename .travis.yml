@@ -35,7 +35,7 @@ r_github_packages:
   - statnmap/GeoDist
   - statnmap/SDMSelect  # pre-install to avoid vignette package errors
 
-  after_success:
+after_success:
   - Rscript -e 'pkgdown::build_site()'
 
 deploy:
