@@ -1,11 +1,11 @@
+^README\.Rmd$
 ^inst/SDM_Selection/SDM_Selection\.html$
 ^inst/Covar_Selection/Covar_Selection\.html$
 ^\.devstuff_history\.R$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-R\_0.1.0
-R\_0.1.1
-R\_0.1.2
 img
 ^\.travis\.yml$
 TODO\.Rmd
+vignettes/*.png
+docs

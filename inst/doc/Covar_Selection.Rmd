@@ -5,6 +5,12 @@ date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
     caption: yes
+resource_files:
+  - "Covariate_correlation_crop.png"
+  - "Param_Exp_Deviance.png"
+  - "Residual-Analysis.png"
+  - "CovForMeanPred_Marginals.png"
+  - "Obs-Pred.png"
 vignette: >
   %\VignetteIndexEntry{Select the best covariates to fit a model}
   %\VignetteEngine{knitr::rmarkdown}
@@ -71,7 +77,9 @@ corSpearman <- Param_corr(
 
 ```
 ```{r, out.width='50%', purl=FALSE, echo=FALSE, fig.caption='Correlation between covariates'}
-knitr::include_graphics(file.path(tmpdir, "Covariate_correlation_crop.png"))
+silent <- file.copy(file.path(tmpdir, "Covariate_correlation_crop.png"),
+          "Covariate_correlation_crop.png")
+knitr::include_graphics("Covariate_correlation_crop.png")
 ```
 
 ## Find the best combination of covariates
@@ -129,25 +137,29 @@ In the case of a model with positive values as here, the outputs are the followi
 - Analysis of variance. Deviance explained by each covariate when added sequentially in the order specified by the cross-validation procedure. "%Exp.Dev" stands for percentage of explained deviance. "RMSE" is the root mean squared error on the validation datasets as issued from the cross-validation procedure, ">Diff" being the difference of RMSE with the previous step.  
 ```{r, results='asis', out.width='90%', echo=FALSE, purl=FALSE}
 Param_Exp_DevianceImg <- system.file("Covar_Selection", "Param_Exp_Deviance.png", package = "SDMSelect")
-knitr::include_graphics(Param_Exp_DevianceImg)
+silent <- file.copy(Param_Exp_DevianceImg, "Param_Exp_Deviance.png")
+knitr::include_graphics("Param_Exp_Deviance.png")
 ```
 
 
 - Residuals analysis  
 ```{r, results='asis', echo=FALSE, purl=FALSE}
 Residual_AnalysisImg <- system.file("Covar_Selection", "Residual-Analysis.png", package = "SDMSelect")
-knitr::include_graphics(Residual_AnalysisImg)
+silent <- file.copy(Residual_AnalysisImg,"Residual-Analysis.png")
+knitr::include_graphics("Residual-Analysis.png")
 ```
 
 
 - Marginal predictions by covariates. These are simplified marginal effects of each covariate in the range of observations. All covariates values except one have been fixed so that their combination give a prediction close to the mean of observations. These simplified marginals figures are to be read for their relative effect and not for their absolute prediction.  
 ```{r, results='asis', echo=FALSE, purl=FALSE}
 CovForMeanPred_MarginalsImg <- system.file("Covar_Selection", "CovForMeanPred_Marginals.png", package = "SDMSelect")
-knitr::include_graphics(CovForMeanPred_MarginalsImg)
+silent <- silent <- file.copy(CovForMeanPred_MarginalsImg, "CovForMeanPred_Marginals.png")
+knitr::include_graphics("CovForMeanPred_Marginals.png")
 ```
 
 - Comparison of predictions against observations  
 ```{r, results='asis', echo=FALSE, purl=FALSE}
 Obs_PredImg <- system.file("Covar_Selection", "Obs-Pred.png", package = "SDMSelect")
-knitr::include_graphics(Obs_PredImg)
+silent <- file.copy(Obs_PredImg, "Obs-Pred.png")
+knitr::include_graphics("Obs-Pred.png")
 ```

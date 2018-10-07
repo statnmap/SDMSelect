@@ -18,5 +18,8 @@ system("mogrify -strip inst/Covar_Selection/*.png")
 devtools::build_vignettes()
 
 # Get dependencies
-attachment::att_from_description()
+attachment::att_to_description(extra.suggests = c("pkgdown", "maptools"))
 attachment::create_dependencies_file()
+
+# Test site build
+pkgdown::build_site()

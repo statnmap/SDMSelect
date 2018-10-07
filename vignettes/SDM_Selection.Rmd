@@ -5,6 +5,14 @@ date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
     caption: yes
+resource_files:
+  - "Correlogram.jpg"
+  - "Covariate_correlation_crop.png"
+  - "Index_Error_on_crossV.png"
+  - "Help_for_model_Choice.png"
+  - "Param_Exp_Deviance.png"
+  - "CovForMeanPred_Marginals.png"
+  - "Thresholds_for_prediction.png"
 vignette: >
   %\VignetteIndexEntry{Select the best covariates to fit a model}
   %\VignetteEngine{knitr::rmarkdown}
@@ -132,7 +140,9 @@ thd <- spatialcor_dist(
 )
 ```
 ```{r, out.width='90%', purl=FALSE, echo=FALSE, fig.caption='Find threshold in spatial auto-correlation of data'}
-knitr::include_graphics(file.path(tmpdir, "Correlogram.jpg"))
+silent <- file.copy(file.path(tmpdir, "Correlogram.jpg"),
+          "Correlogram.jpg")
+knitr::include_graphics("Correlogram.jpg")
 ```
 
 We choose a resolution for resampling the data using proposition of `spatialcor_dist` function. Here, thresholds estimated are `r paste(round(thd/1000), collapse = 'km and ')`km. The second value is used to build a regular grid, with which the spatial dataset is resampled. Function `RefRasterize` allows creating a grid with a defined resolution. Function `Prepare_dataset` is then re-run to create the new dataset passed through the grid. For all observations in the same grid cell, the function calculates the average spatial position, the average of all numeric covariates, the most frequent factor covariate, observation of presence if the species was present at least once in the cell (*the mean of observations when continuous data*). `data.new` output is a `SpatialPointsDataFrame`.
@@ -166,7 +176,9 @@ corSpearman <- Param_corr(
 
 ```
 ```{r, out.width='50%', purl=FALSE, echo=FALSE, fig.caption='Correlation between covariates'}
-knitr::include_graphics(file.path(tmpdir, "Covariate_correlation_crop.png"))
+silent <- file.copy(file.path(tmpdir, "Covariate_correlation_crop.png"),
+          "Covariate_correlation_crop.png")
+knitr::include_graphics("Covariate_correlation_crop.png")
 ```
 
 ## Find the best combination of covariates
@@ -204,7 +216,8 @@ This results in figures showing the distribution of the goodness of fit (here AU
 
 ```{r, results='asis', echo=FALSE, purl=FALSE, out.width='90%'}
 Index_Error_on_crossVImg <- system.file("SDM_Selection", "Index_Error_on_crossV.png", package = "SDMSelect")
-knitr::include_graphics(Index_Error_on_crossVImg)
+silent <- file.copy(Index_Error_on_crossVImg, "Index_Error_on_crossV.png")
+knitr::include_graphics("Index_Error_on_crossV.png")
 ```
 
 Two tables are available:
@@ -223,7 +236,8 @@ Covariates selected in all models not statistically different from the best one 
 
 ```{r, results='asis', echo=FALSE, purl=FALSE, out.width='90%'}
 Help_for_model_ChoiceImg <- system.file("SDM_Selection", "Help_for_model_Choice.png", package = "SDMSelect")
-knitr::include_graphics(Help_for_model_ChoiceImg)
+silent <- file.copy(Help_for_model_ChoiceImg, "Help_for_model_Choice.png")
+knitr::include_graphics("Help_for_model_Choice.png")
 ```
 
 ## Predictions of the best model
@@ -239,19 +253,22 @@ In the case of a model with presence-absence, the outputs are the following.
 - Analysis of variance. Deviance explained by each covariate when added sequentially in the order specified by the cross-validation procedure. "%Exp.Dev" stands for percentage of explained deviance. "AUC" is the mean AUC on the validation datasets as issued from the cross-validation procedure, ">Diff" being the difference of cross-validation AUC with the previous step.  
 ```{r, results='asis', echo=FALSE, purl=FALSE, out.width='100%'}
 Param_Exp_DevianceImg <- system.file("SDM_Selection", "Param_Exp_Deviance.png", package = "SDMSelect")
-knitr::include_graphics(Param_Exp_DevianceImg)
+silent <- file.copy(Param_Exp_DevianceImg, "Param_Exp_Deviance.png")
+knitr::include_graphics("Param_Exp_Deviance.png")
 ```
 
 - Marginal predictions by covariates. These are simplified marginal effects of each covariate in the range of observations. All covariates values except one have been fixed so that their combination give a prediction close to the mean of observations. These simplified marginals figures are to be read for their relative effect and not for their absolute prediction.  
 ```{r, results='asis', echo=FALSE, purl=FALSE}
 CovForMeanPred_MarginalsImg <- system.file("SDM_Selection", "CovForMeanPred_Marginals.png", package = "SDMSelect")
-knitr::include_graphics(CovForMeanPred_MarginalsImg)
+silent <- file.copy(CovForMeanPred_MarginalsImg, "CovForMeanPred_Marginals.png")
+knitr::include_graphics("CovForMeanPred_Marginals.png")
 ```
 
 - Comparison of predictions against observations and proposition of threshold values to separate presence from absences. The best threshold value is based on cross-validation outputs. This is the value closest to selectivity equals specificity.  
 ```{r, results='asis', echo=FALSE, purl=FALSE}
 Thresholds_for_predictionImg <- system.file("SDM_Selection", "Thresholds_for_prediction.png", package = "SDMSelect")
-knitr::include_graphics(Thresholds_for_predictionImg)
+silent <- file.copy(Thresholds_for_predictionImg, "Thresholds_for_prediction.png")
+knitr::include_graphics("Thresholds_for_prediction.png")
 ```
 
 ## Species distribution mapping
