@@ -6,7 +6,7 @@
 \usage{
 findBestModel(x, datatype, corSpearman, saveWD = paste0(tempdir(),
   "/outputs"), zip.file = TRUE, restart = NULL, MPIcalc = FALSE,
-  verbose = 0)
+  verbose = 0, na.max = 0.5, test = "wilcoxon")
 }
 \arguments{
 \item{x}{dataset (dataframe or SpatialPointsDataFrame) prepared with
@@ -36,6 +36,13 @@ You can unzip your previously saved file and define this unzip folder as saveWD.
 \item{MPIcalc}{Logical. Whether the function is run within a MPI cluster or locally.}
 
 \item{verbose}{Numeric. 0: no message, 1:few messages, 2:all messages}
+
+\item{na.max}{proportion maximum of NA value allowed in one distribution.
+If proportion of NA is upper na.max, model is ranked at the end
+and no p-value is calculated}
+
+\item{test}{test used to compare distribution as used by
+\code{\link[survey]{svyranktest}}}
 }
 \description{
 Multiple k-fold cross-validation to test for the best combination

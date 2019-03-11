@@ -39,8 +39,14 @@ install.packages("devtools")
 devtools::install_github("statnmap/SDMSelect")
 ```
 
+Build with vignettes:
+
+```{r, eval=FALSE}
+devtools::install_github("statnmap/SDMSelect", build_opts = c("--no-resave-data", "--no-manual"))
+```
+
 To be able to test the vignettes, you will previously need to install `knitr`, `rmarkdown`, `dismo` and `rasterVis`. 
-Vignette for [covariates selection here](https://statnmap.github.io/SDMSelect/articles/Covar_Selection.html) and for [species distribution model selection here](https://statnmap.github.io/SDMSelect/articles/SDM_Selection.html)
+Vignette are available on {pkgdown} website for [covariates selection](https://statnmap.github.io/SDMSelect/articles/Covar_Selection.html) and for [species distribution model selection ](https://statnmap.github.io/SDMSelect/articles/SDM_Selection.html)
 
 Note that spatial libraries like `rgdal` and `sp` may require additional softwares to be installed on your computer if you work with Mac or Linux. Look how to install `proj4`, `geos` and `gdal` on your system.
 

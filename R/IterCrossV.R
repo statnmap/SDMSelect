@@ -21,6 +21,7 @@
 #' You can unzip your previously saved file and define this unzip folder as saveWD.
 #' @param MPIcalc Logical. Whether the function is run within a MPI cluster or locally.
 #' @param verbose Numeric. 0: no message, 1:few messages, 2:all messages
+#' @inheritParams best_distri
 #'
 #' @export
 
@@ -28,7 +29,8 @@ findBestModel <- function(x, datatype, corSpearman,
                           saveWD = paste0(tempdir(), "/outputs"),
                           zip.file = TRUE,
                           restart = NULL, MPIcalc = FALSE,
-                          verbose = 0) {
+                          verbose = 0,
+                          na.max = 0.5, test  = "wilcoxon") {
 
   saveWD <- normalizePath(saveWD)
   if (!dir.exists(saveWD)) {dir.create(saveWD)}
@@ -819,8 +821,8 @@ findBestModel <- function(x, datatype, corSpearman,
       # different among folds. Moreover, factor covariates also unbalance the
       # repartition to assure at least one data for each level.
       best.distri <- best_distri(x = IndexForRank_crossV, w = saveAlea.nb,
-                                 test  = "wilcoxon",
-                                 na.max = 0.5, p.min = lim_pvalue,
+                                 test  = test,
+                                 na.max = na.max, p.min = lim_pvalue,
                                  silent = TRUE, cl = cl)
 
       Line_keep <- best.distri$orderModels[which(best.distri$p.min.test)]

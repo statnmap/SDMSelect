@@ -1,5 +1,7 @@
 # SDMSelect 0.1.4.9000
 
+* Add `na.max` and `test` exported from `best_distri()` in `findBestModel()`
+
 # SDMSelect 0.1.4
 
 * Added pkgdown page on github
