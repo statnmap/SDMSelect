@@ -6,7 +6,7 @@ output:
   rmarkdown::html_vignette:
     caption: yes
 vignette: >
-  %\VignetteIndexEntry{Select the best covariates to fit a model}
+  %\VignetteIndexEntry{Species distribution model selection}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -5,12 +5,6 @@ date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
     caption: yes
-resource_files:
-  - "Covariate_correlation_crop.png"
-  - "Param_Exp_Deviance.png"
-  - "Residual-Analysis.png"
-  - "CovForMeanPred_Marginals.png"
-  - "Obs-Pred.png"
 vignette: >
   %\VignetteIndexEntry{Select the best covariates to fit a model}
   %\VignetteEngine{knitr::rmarkdown}
