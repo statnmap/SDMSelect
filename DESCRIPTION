@@ -26,8 +26,8 @@ License: GPL (>= 3) | file LICENSE
 URL: https://github.com/statnmap/SDMSelect
 BugReports: https://github.com/statnmap/SDMSelect/issues
 Depends: 
-    R (>= 3.3.0),
-    GlobalOptions
+    GlobalOptions,
+    R (>= 3.3.0)
 Imports:
     corrplot (>= 0.82),
     corrr,

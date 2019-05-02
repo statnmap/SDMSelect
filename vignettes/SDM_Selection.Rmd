@@ -265,6 +265,15 @@ knitr::include_graphics("CovForMeanPred_Marginals.png")
 ```
 
 - Comparison of predictions against observations and proposition of threshold values to separate presence from absences. The best threshold value is based on cross-validation outputs. This is the value closest to selectivity equals specificity.  
+    + When the best model has been selected, it is used for prediction. All data are used to fit the model, predictions are made on the same dataset. For each observation, the model predicts a probability of presence between 0 and 1, although observations were 0 or 1. The figure is a "pirateplot" from package {yarrr}. It shows the distribution of predictions for the best model separating presence-absences observed.
+        + The Bean plot is a smoothed density (inspired by Kampstra et al. (2008)).
+        + The (Bar/Line Center) shows the mean of the distribution
+        + The band represents an inference interval around the mean: Bayesian Highest Density Interval
+    + Other indices have been calculated during the cross-validation procedure.
+        + The best THD is the best threshold value to separate presences from absences considering quality of prediction of the model. Indeed, if the cross-validation built 10 times 10-fold cross-validation models, then there are 100 validations. For each of the 100 model, the best threshold is the value on the ROC curves that equilibrates selectivity and sensitivity of the predictions. The best THD on the figure is the average of the 100 cross-validation thresholds. (Best THD close to 0.5 shows well-balanced dataset with trustwirthy predictions. lower (resp. higher) value show a desequilibrium towards absences (resp. presences) in the combination of covariates selected)
+        + Similarly, MaxZero is the average of 100 cross-validation threshold calculated as the threshold below which 95% of absence are correctly classified as absences. (the closest to the best THD, the better)
+        + Similarly, MaxUn is the average of 100 cross-validation threshold calculated as the threshold above which 95% of presences are correctly classified as presences. (the closest to the best THD, the better)
+
 ```{r, results='asis', echo=FALSE, purl=FALSE}
 Thresholds_for_predictionImg <- system.file("SDM_Selection", "Thresholds_for_prediction.png", package = "SDMSelect")
 silent <- file.copy(Thresholds_for_predictionImg, "Thresholds_for_prediction.png")
