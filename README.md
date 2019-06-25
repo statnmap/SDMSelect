@@ -22,9 +22,10 @@ Please give credit where credit is due and cite R and R packages when
 you use them for data analysis. To cite `SDMSelect` properly, call the R
 built-in command `citation("SDMSelect")`:
 
-> Sébastien Rochette. (2017, September 18). SDMSelect: A R-package for
-> cross-validation model selection and species distribution mapping.
-> Zenodo. <http://doi.org/10.5281/zenodo.894344>
+> Sébastien Rochette. (2019, June 25). statnmap/SDMSelect: SDMSelect: A
+> R-package for cross-validation model selection and species
+> distribution mapping (Version v0.1.5). Zenodo.
+> <http://doi.org/10.5281/zenodo.3256536>
 
 # Download and Install
 
