@@ -13,15 +13,5 @@ gplot_data(x, maxpixels = 50000)
 \item{maxpixels}{Maximum number of pixels to use}
 }
 \description{
-Transform raster as data.frame to be later used with ggplot
-Modified from rasterVis::gplot
-}
-\details{
-rasterVis::gplot is nice to plot a raster in a ggplot but
-if you want to plot different rasters on the same plot, you are stuck.
-If you want to add other information or transform your raster as a
-category raster, you can not do it. With `SDMSelect::gplot_data`, you retrieve your
-raster as a data.frame that can be modified as wanted using `dplyr` and
-then plot in `ggplot` using `geom_tile`.
-If Raster has levels, they will be joined to the final tibble.
+See \code{cartomisc::\link[cartomisc]{gplot_data}} for details.
 }
