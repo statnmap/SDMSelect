@@ -2,7 +2,7 @@ Type: Package
 Package: SDMSelect
 Title: Cross-validation model selection and species distribution
     mapping
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: 
     person(given = "Sébastien",
            family = "Rochette",

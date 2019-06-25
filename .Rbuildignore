@@ -9,3 +9,5 @@ img
 TODO\.Rmd
 vignettes/*.png
 docs
+^doc$
+^Meta$

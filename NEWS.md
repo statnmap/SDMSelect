@@ -1,6 +1,10 @@
-# SDMSelect 0.1.4.9000
+# SDMSelect 0.1.5.9000
 
-* Add `na.max` and `test` exported from `best_distri()` in `findBestModel()`
+# SDMSelect 0.1.5
+
+* Vignettes: Workaround to copy images files in pkgdown site
+* `gplot_data()` is now imported from {cartomisc} (github only)
+* `findBestModel()`: Add `na.max` and `test` exported from `best_distri()`
 
 # SDMSelect 0.1.4
 
