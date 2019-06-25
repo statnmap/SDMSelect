@@ -132,8 +132,11 @@ thd <- spatialcor_dist(
 )
 ```
 ```{r, out.width='90%', purl=FALSE, echo=FALSE, fig.caption='Find threshold in spatial auto-correlation of data'}
-silent <- file.copy(file.path(tmpdir, "Correlogram.jpg"),
-          "Correlogram.jpg")
+file <- file.path(tmpdir, "Correlogram.jpg")
+silent <- file.copy(file, "Correlogram.jpg")
+if (dir.exists(here::here("docs/articles"))) { # for pkgdown only
+  silent <- file.copy(file, here::here("docs/articles/Correlogram.jpg"))
+}
 knitr::include_graphics("Correlogram.jpg")
 ```
 
@@ -168,8 +171,11 @@ corSpearman <- Param_corr(
 
 ```
 ```{r, out.width='50%', purl=FALSE, echo=FALSE, fig.caption='Correlation between covariates'}
-silent <- file.copy(file.path(tmpdir, "Covariate_correlation_crop.png"),
-          "Covariate_correlation_crop.png")
+file <- file.path(tmpdir, "Covariate_correlation_crop.png")
+silent <- file.copy(file, "Covariate_correlation_crop.png")
+if (dir.exists(here::here("docs/articles"))) { # for pkgdown only
+  silent <- file.copy(file, here::here("docs/articles/Covariate_correlation_crop.png"))
+}
 knitr::include_graphics("Covariate_correlation_crop.png")
 ```
 
@@ -207,8 +213,11 @@ BestModels <- readr::read_rds(BestModelsFile)
 This results in figures showing the distribution of the goodness of fit (here AUC) issued from cross-validation for each model. This allows to see that predictive power of some models is not very different than the best one. Coloured boxplots are those of AUC distribution not statistically different from the best one. Models are ranged by family chosen and number of covariates added during the forward stepwise procedure.  
 
 ```{r, results='asis', echo=FALSE, purl=FALSE, out.width='90%'}
-Index_Error_on_crossVImg <- system.file("SDM_Selection", "Index_Error_on_crossV.png", package = "SDMSelect")
-silent <- file.copy(Index_Error_on_crossVImg, "Index_Error_on_crossV.png")
+file <- system.file("SDM_Selection", "Index_Error_on_crossV.png", package = "SDMSelect")
+silent <- file.copy(file, "Index_Error_on_crossV.png")
+if (dir.exists(here::here("docs/articles"))) { # for pkgdown only
+  silent <- file.copy(file, here::here("docs/articles/Index_Error_on_crossV.png"))
+}
 knitr::include_graphics("Index_Error_on_crossV.png")
 ```
 
@@ -227,8 +236,11 @@ knitr::kable(BestModels$BestForModeltypes, row.names = FALSE)
 Covariates selected in all models not statistically different from the best one may be explored to choose the best model by expertise. Covariates are ordered based on occurrence in the models selected. You may want to choose between the best model and the model with most selected covariates.
 
 ```{r, results='asis', echo=FALSE, purl=FALSE, out.width='90%'}
-Help_for_model_ChoiceImg <- system.file("SDM_Selection", "Help_for_model_Choice.png", package = "SDMSelect")
-silent <- file.copy(Help_for_model_ChoiceImg, "Help_for_model_Choice.png")
+file <- system.file("SDM_Selection", "Help_for_model_Choice.png", package = "SDMSelect")
+silent <- file.copy(file, "Help_for_model_Choice.png")
+if (dir.exists(here::here("docs/articles"))) { # for pkgdown only
+  silent <- file.copy(file, here::here("docs/articles/Help_for_model_Choice.png"))
+}
 knitr::include_graphics("Help_for_model_Choice.png")
 ```
 
@@ -244,15 +256,21 @@ In the case of a model with presence-absence, the outputs are the following.
 
 - Analysis of variance. Deviance explained by each covariate when added sequentially in the order specified by the cross-validation procedure. "%Exp.Dev" stands for percentage of explained deviance. "AUC" is the mean AUC on the validation datasets as issued from the cross-validation procedure, ">Diff" being the difference of cross-validation AUC with the previous step.  
 ```{r, results='asis', echo=FALSE, purl=FALSE, out.width='100%'}
-Param_Exp_DevianceImg <- system.file("SDM_Selection", "Param_Exp_Deviance.png", package = "SDMSelect")
-silent <- file.copy(Param_Exp_DevianceImg, "Param_Exp_Deviance.png")
+file <- system.file("SDM_Selection", "Param_Exp_Deviance.png", package = "SDMSelect")
+silent <- file.copy(file, "Param_Exp_Deviance.png")
+if (dir.exists(here::here("docs/articles"))) { # for pkgdown only
+  silent <- file.copy(file, here::here("docs/articles/Param_Exp_Deviance.png"))
+}
 knitr::include_graphics("Param_Exp_Deviance.png")
 ```
 
 - Marginal predictions by covariates. These are simplified marginal effects of each covariate in the range of observations. All covariates values except one have been fixed so that their combination give a prediction close to the mean of observations. These simplified marginals figures are to be read for their relative effect and not for their absolute prediction.  
 ```{r, results='asis', echo=FALSE, purl=FALSE}
-CovForMeanPred_MarginalsImg <- system.file("SDM_Selection", "CovForMeanPred_Marginals.png", package = "SDMSelect")
-silent <- file.copy(CovForMeanPred_MarginalsImg, "CovForMeanPred_Marginals.png")
+file <- system.file("SDM_Selection", "CovForMeanPred_Marginals.png", package = "SDMSelect")
+silent <- file.copy(file, "CovForMeanPred_Marginals.png")
+if (dir.exists(here::here("docs/articles"))) { # for pkgdown only
+  silent <- file.copy(file, here::here("docs/articles/CovForMeanPred_Marginals.png"))
+}
 knitr::include_graphics("CovForMeanPred_Marginals.png")
 ```
 
@@ -267,8 +285,11 @@ knitr::include_graphics("CovForMeanPred_Marginals.png")
         + Similarly, MaxUn is the average of 100 cross-validation threshold calculated as the threshold above which 95% of presences are correctly classified as presences. (the closest to the best THD, the better)
 
 ```{r, results='asis', echo=FALSE, purl=FALSE}
-Thresholds_for_predictionImg <- system.file("SDM_Selection", "Thresholds_for_prediction.png", package = "SDMSelect")
-silent <- file.copy(Thresholds_for_predictionImg, "Thresholds_for_prediction.png")
+file <- system.file("SDM_Selection", "Thresholds_for_prediction.png", package = "SDMSelect")
+silent <- file.copy(file, "Thresholds_for_prediction.png")
+if (dir.exists(here::here("docs/articles"))) { # for pkgdown only
+  silent <- file.copy(file, here::here("docs/articles/Thresholds_for_prediction.png"))
+}
 knitr::include_graphics("Thresholds_for_prediction.png")
 ```
 

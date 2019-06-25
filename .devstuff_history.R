@@ -18,8 +18,10 @@ system("mogrify -strip inst/Covar_Selection/*.png")
 devtools::build_vignettes()
 
 # Get dependencies
-attachment::att_to_description(extra.suggests = c("pkgdown", "maptools"))
+attachment::att_to_description(extra.suggests = c("pkgdown", "maptools", "here"))
 attachment::create_dependencies_file()
 
 # Test site build
 pkgdown::build_site()
+pkgdown::build_article("Covar_Selection")
+pkgdown::build_article("SDM_Selection")

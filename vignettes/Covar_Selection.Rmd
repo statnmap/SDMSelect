@@ -71,8 +71,11 @@ corSpearman <- Param_corr(
 
 ```
 ```{r, out.width='50%', purl=FALSE, echo=FALSE, fig.cap='Correlation between covariates'}
-silent <- file.copy(file.path(tmpdir, "Covariate_correlation_crop.png"),
-          "Covariate_correlation_crop.png")
+file <- file.path(tmpdir, "Covariate_correlation_crop.png")
+silent <- file.copy(file, "Covariate_correlation_crop.png")
+if (dir.exists(here::here("docs/articles"))) { # for pkgdown only
+  silent <- file.copy(file, here::here("docs/articles/Covariate_correlation_crop.png"))
+}
 knitr::include_graphics("Covariate_correlation_crop.png")
 ```
 
@@ -130,30 +133,42 @@ In the case of a model with positive values as here, the outputs are the followi
 
 - Analysis of variance. Deviance explained by each covariate when added sequentially in the order specified by the cross-validation procedure. "%Exp.Dev" stands for percentage of explained deviance. "RMSE" is the root mean squared error on the validation datasets as issued from the cross-validation procedure, ">Diff" being the difference of RMSE with the previous step.  
 ```{r, results='asis', out.width='90%', echo=FALSE, purl=FALSE}
-Param_Exp_DevianceImg <- system.file("Covar_Selection", "Param_Exp_Deviance.png", package = "SDMSelect")
-silent <- file.copy(Param_Exp_DevianceImg, "Param_Exp_Deviance.png")
+file <- system.file("Covar_Selection", "Param_Exp_Deviance.png", package = "SDMSelect")
+silent <- file.copy(file, "Param_Exp_Deviance.png")
+if (dir.exists(here::here("docs/articles"))) { # for pkgdown only
+  silent <- file.copy(file, here::here("docs/articles/Param_Exp_Deviance.png"))
+}
 knitr::include_graphics("Param_Exp_Deviance.png")
 ```
 
 
 - Residuals analysis  
 ```{r, results='asis', echo=FALSE, purl=FALSE}
-Residual_AnalysisImg <- system.file("Covar_Selection", "Residual-Analysis.png", package = "SDMSelect")
-silent <- file.copy(Residual_AnalysisImg,"Residual-Analysis.png")
+file <- system.file("Covar_Selection", "Residual-Analysis.png", package = "SDMSelect")
+silent <- file.copy(file,"Residual-Analysis.png")
+if (dir.exists(here::here("docs/articles"))) { # for pkgdown only
+  silent <- file.copy(file, here::here("docs/articles/Residual-Analysis.png"))
+}
 knitr::include_graphics("Residual-Analysis.png")
 ```
 
 
 - Marginal predictions by covariates. These are simplified marginal effects of each covariate in the range of observations. All covariates values except one have been fixed so that their combination give a prediction close to the mean of observations. These simplified marginals figures are to be read for their relative effect and not for their absolute prediction.  
 ```{r, results='asis', echo=FALSE, purl=FALSE}
-CovForMeanPred_MarginalsImg <- system.file("Covar_Selection", "CovForMeanPred_Marginals.png", package = "SDMSelect")
-silent <- silent <- file.copy(CovForMeanPred_MarginalsImg, "CovForMeanPred_Marginals.png")
+file <- system.file("Covar_Selection", "CovForMeanPred_Marginals.png", package = "SDMSelect")
+silent <- silent <- file.copy(file, "CovForMeanPred_Marginals.png")
+if (dir.exists(here::here("docs/articles"))) { # for pkgdown only
+  silent <- file.copy(file, here::here("docs/articles/CovForMeanPred_Marginals.png"))
+}
 knitr::include_graphics("CovForMeanPred_Marginals.png")
 ```
 
 - Comparison of predictions against observations  
 ```{r, results='asis', echo=FALSE, purl=FALSE}
-Obs_PredImg <- system.file("Covar_Selection", "Obs-Pred.png", package = "SDMSelect")
-silent <- file.copy(Obs_PredImg, "Obs-Pred.png")
+file <- system.file("Covar_Selection", "Obs-Pred.png", package = "SDMSelect")
+silent <- file.copy(file, "Obs-Pred.png")
+if (dir.exists(here::here("docs/articles"))) { # for pkgdown only
+  silent <- file.copy(file, here::here("docs/articles/Obs-Pred.png"))
+}
 knitr::include_graphics("Obs-Pred.png")
 ```
