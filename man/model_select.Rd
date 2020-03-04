@@ -4,8 +4,14 @@
 \alias{model_select}
 \title{Characteristics of the model on which to produce outputs}
 \usage{
-model_select(saveWD, new.data, Num = NULL, model = NULL,
-  modeltype = NULL, powerXI = NULL)
+model_select(
+  saveWD,
+  new.data,
+  Num = NULL,
+  model = NULL,
+  modeltype = NULL,
+  powerXI = NULL
+)
 }
 \arguments{
 \item{saveWD}{directory where outputs of model selection are saved, including

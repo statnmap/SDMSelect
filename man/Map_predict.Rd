@@ -4,8 +4,17 @@
 \alias{Map_predict}
 \title{Create Multilayer raster for predictions and uncertainty analysis}
 \usage{
-Map_predict(object, saveWD, mask = NULL, Num = NULL, model = NULL,
-  modeltype = NULL, powerXI = NULL, zip.file = TRUE, cl = NULL)
+Map_predict(
+  object,
+  saveWD,
+  mask = NULL,
+  Num = NULL,
+  model = NULL,
+  modeltype = NULL,
+  powerXI = NULL,
+  zip.file = TRUE,
+  cl = NULL
+)
 }
 \arguments{
 \item{object}{Multi-layer Raster with at least covariates of the model selected}

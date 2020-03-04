@@ -4,8 +4,13 @@
 \alias{modelselect_opt}
 \title{Modelselect configuration file}
 \usage{
-modelselect_opt(..., RESET = FALSE, READ.ONLY = NULL, LOCAL = FALSE,
-  ADD = FALSE)
+modelselect_opt(
+  ...,
+  RESET = FALSE,
+  READ.ONLY = NULL,
+  LOCAL = FALSE,
+  ADD = FALSE
+)
 }
 \arguments{
 \item{...}{Other options as listed below}

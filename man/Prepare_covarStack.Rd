@@ -4,8 +4,16 @@
 \alias{Prepare_covarStack}
 \title{Merge covariate rasters from different extents and projections into a multi-layer Raster}
 \usage{
-Prepare_covarStack(cov.paths, r.ref, ext, outWD, names.cov, is.factor,
-  verbose = 1, cl = NULL)
+Prepare_covarStack(
+  cov.paths,
+  r.ref,
+  ext,
+  outWD,
+  names.cov,
+  is.factor,
+  verbose = 1,
+  cl = NULL
+)
 }
 \arguments{
 \item{cov.paths}{vector of paths of all raster files to be added in the multi-layer raster}

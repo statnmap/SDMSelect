@@ -5,9 +5,19 @@
 \title{Function that returns the AIC of a list of models
 In the case of a tweedie model (TweedGLM), it also returns the XI value to be used in cross-validation if not fixed previously}
 \usage{
-AIC_indices(x, Y_data_sample, Models_tmp_nb, modeltype, fixXI,
-  Y_data_sample_lcc = NA, MaxDist = NA, Phi = NA, Model, fix.lambda,
-  lambda)
+AIC_indices(
+  x,
+  Y_data_sample,
+  Models_tmp_nb,
+  modeltype,
+  fixXI,
+  Y_data_sample_lcc = NA,
+  MaxDist = NA,
+  Phi = NA,
+  Model,
+  fix.lambda,
+  lambda
+)
 }
 \arguments{
 \item{x}{the model number to be fitted. From 1 to length(Models_tmp_nb).}

@@ -5,9 +5,15 @@
 \title{A function to rank distributions (of same length) and statistically compare
 them to the best one}
 \usage{
-best_distri(x, w, test = c("wilcoxon", "vanderWaerden", "median",
-  "KruskalWallis"), na.max = 0.5, p.min = 0.01, silent = TRUE,
-  cl = NULL)
+best_distri(
+  x,
+  w,
+  test = c("wilcoxon", "vanderWaerden", "median", "KruskalWallis"),
+  na.max = 0.5,
+  p.min = 0.01,
+  silent = TRUE,
+  cl = NULL
+)
 }
 \arguments{
 \item{x}{Typically a matrix where rows are different distributions of the

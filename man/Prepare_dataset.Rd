@@ -4,9 +4,16 @@
 \alias{Prepare_dataset}
 \title{Prepare dataset to be included in the model selection procedure}
 \usage{
-Prepare_dataset(x, var = 1, cov = 2:ncol(x), coords,
-  proj4string = NULL, RefRaster = NULL, datatype = "Cont",
-  na.rm = TRUE)
+Prepare_dataset(
+  x,
+  var = 1,
+  cov = 2:ncol(x),
+  coords,
+  proj4string = NULL,
+  RefRaster = NULL,
+  datatype = "Cont",
+  na.rm = TRUE
+)
 }
 \arguments{
 \item{x}{data.frame or SpatialPointsDataFrame of observations with covariates}

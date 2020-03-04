@@ -4,9 +4,18 @@
 \alias{findBestModel}
 \title{Find best model}
 \usage{
-findBestModel(x, datatype, corSpearman, saveWD = paste0(tempdir(),
-  "/outputs"), zip.file = TRUE, restart = NULL, MPIcalc = FALSE,
-  verbose = 0, na.max = 0.5, test = "wilcoxon")
+findBestModel(
+  x,
+  datatype,
+  corSpearman,
+  saveWD = paste0(tempdir(), "/outputs"),
+  zip.file = TRUE,
+  restart = NULL,
+  MPIcalc = FALSE,
+  verbose = 0,
+  na.max = 0.5,
+  test = "wilcoxon"
+)
 }
 \arguments{
 \item{x}{dataset (dataframe or SpatialPointsDataFrame) prepared with

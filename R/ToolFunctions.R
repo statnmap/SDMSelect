@@ -146,8 +146,8 @@ is_ProjEqual <- function(x, y)
     res <- TRUE
   } else {
     # Test for other cases
-    x.split.all <- strsplit(x, " ")[[1]]
-    y.split.all <- strsplit(y, " ")[[1]]
+    x.split.all <- x.split <- strsplit(x, " ")[[1]]
+    y.split.all <- y.split <- strsplit(y, " ")[[1]]
     in.lat <- 0
     if (length(grep("lat_1", x.split.all)) != 0
         & length(grep("lat_2", x.split.all)) != 0) {

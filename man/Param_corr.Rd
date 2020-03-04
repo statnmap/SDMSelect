@@ -4,8 +4,16 @@
 \alias{Param_corr}
 \title{Function to identify covariates that are correlated in terms of Spearman's rank}
 \usage{
-Param_corr(x, rm = NULL, visual = FALSE, thd = 0.7, plot = TRUE,
-  saveWD = NULL, figname = "Covariate_correlation", img.size = 12)
+Param_corr(
+  x,
+  rm = NULL,
+  visual = FALSE,
+  thd = 0.7,
+  plot = TRUE,
+  saveWD = NULL,
+  figname = "Covariate_correlation",
+  img.size = 12
+)
 }
 \arguments{
 \item{x}{dataframe of covariates only, on which to test correlation of covariates.

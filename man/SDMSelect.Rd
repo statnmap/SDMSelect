@@ -3,7 +3,6 @@
 \docType{package}
 \name{SDMSelect}
 \alias{SDMSelect}
-\alias{SDMSelect-package}
 \title{SDMSelect: A package for cross-validation model selection and species distribution mapping.}
 \description{
 The SDMSelect package is used with four main functions:

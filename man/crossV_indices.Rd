@@ -5,8 +5,20 @@
 \title{Function that return indices of quality of fit for a list of models with a
 sub-sample of data used as validation sample in a cross-validation procedure}
 \usage{
-crossV_indices(MC, formulas, modeltype, saveAlea, Y_data_sample, seqthd,
-  resParam_save, Y_data_sample_lcc, MaxDist, Phi, model, lambda)
+crossV_indices(
+  MC,
+  formulas,
+  modeltype,
+  saveAlea,
+  Y_data_sample,
+  seqthd,
+  resParam_save,
+  Y_data_sample_lcc,
+  MaxDist,
+  Phi,
+  model,
+  lambda
+)
 }
 \arguments{
 \item{MC}{index of the cross-validation subset to achieve}

@@ -4,9 +4,18 @@
 \alias{ModelResults}
 \title{Study the outputs and predictions of a specific model}
 \usage{
-ModelResults(saveWD, plot, Num = NULL, model = NULL,
-  modeltype = NULL, powerXI = NULL, Marginals = FALSE,
-  zip.file = TRUE, cl = NULL, n.ech.marginal = 5000)
+ModelResults(
+  saveWD,
+  plot,
+  Num = NULL,
+  model = NULL,
+  modeltype = NULL,
+  powerXI = NULL,
+  Marginals = FALSE,
+  zip.file = TRUE,
+  cl = NULL,
+  n.ech.marginal = 5000
+)
 }
 \arguments{
 \item{saveWD}{directory where outputs of the cross-validation procedure have

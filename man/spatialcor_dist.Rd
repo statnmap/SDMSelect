@@ -5,9 +5,21 @@
 \title{Figure to see spatial autocorrelation that may allow to define the grid
 size for gridded procedure}
 \usage{
-spatialcor_dist(x, y, longlat = FALSE, max1, lag1, max2, lag2,
-  binomial = TRUE, thd = TRUE, plot = TRUE, saveWD, figname,
-  simplify.grid = FALSE)
+spatialcor_dist(
+  x,
+  y,
+  longlat = FALSE,
+  max1,
+  lag1,
+  max2,
+  lag2,
+  binomial = TRUE,
+  thd = TRUE,
+  plot = TRUE,
+  saveWD,
+  figname,
+  simplify.grid = FALSE
+)
 }
 \arguments{
 \item{x}{A SpatialPointsDataFrame}
