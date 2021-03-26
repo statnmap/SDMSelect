@@ -99,7 +99,7 @@ Model selection was realised separately for each distribution tested. The exact 
 ```{r}
 BestModels <- ModelOrder(saveWD = res.file, plot = TRUE)
 # To add in /inst for vignettes
-readr::write_rds(BestModels, path = "BestModels.rds")
+readr::write_rds(BestModels, "BestModels.rds")
 ```
 
 Two tables are available:

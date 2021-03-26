@@ -2,7 +2,7 @@ Type: Package
 Package: SDMSelect
 Title: Cross-validation model selection and species distribution
     mapping
-Version: 0.1.5
+Version: 0.1.6
 Authors@R: 
     person(given = "Sébastien",
            family = "Rochette",
@@ -31,9 +31,9 @@ Depends:
 Imports:
     cartomisc,
     corrplot (>= 0.82),
-    corrr,
+    corrr (>= 0.4.3),
     cowplot,
-    dplyr (>= 0.7),
+    dplyr (>= 0.8),
     geoR,
     ggplot2,
     graphics,
@@ -55,6 +55,7 @@ Imports:
     stats,
     survey,
     tcltk,
+    tibble,
     tidyr,
     tweedie,
     utils,
@@ -73,4 +74,4 @@ Remotes:
     statnmap/cartomisc
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1

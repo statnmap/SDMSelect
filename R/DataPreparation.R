@@ -31,7 +31,6 @@
 #' tested in the models will be KrigeGLM or KrigeGLM.dist (see \code{\link{AIC_indices}} or
 #' \code{\link{crossV_indices}}).
 #'
-#' @importFrom magrittr %>%
 #'
 #' @return return a dataset where variable of interest is called 'dataY'
 #' (for compatibility with other functions. To be changed later to allow user defined name)
@@ -920,16 +919,19 @@ Param_corr <- function(x, rm = NULL, visual = FALSE, thd = 0.7, plot = TRUE, sav
     corrr::correlate(method = "spearman") %>%
     dplyr::mutate_all(function(x) ifelse(is.na(x), 1, x))
   class(corSpearman.tmp) <- c("cor_df", class(corSpearman.tmp))
+
+  # dplyr 0.8.0
   corSpearman <- corSpearman.tmp %>%
     corrr::shave() %>%
-    tidyr::gather(key = "Var2", value = "Corr", -rowname) %>%
-    dplyr::rename(Var1 = rowname) %>%
+    tidyr::gather(key = "Var2", value = "Corr", -term) %>%
+    dplyr::rename(Var1 = term) %>%
     #fashion(leading_zeros = TRUE) %>%
     # as.data.frame.table() %>%
     # filter(Freq != "") %>%
     dplyr::mutate_at(
       .vars = 1:2,
-      .funs = dplyr::funs("num" = as.numeric(as.factor(.)))) %>%
+      # .funs = dplyr::funs("num" = as.numeric(as.factor(.)))) %>%
+      .funs = list("num" = ~as.numeric(as.factor(.x)))) %>%
     dplyr::filter(!is.na(Corr)) %>%
     as.data.frame()
 

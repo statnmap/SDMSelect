@@ -117,6 +117,7 @@ ModelOrder <- function(saveWD, plot, zip.file = TRUE, cl = NULL)
       paste0(saveWD, "/Output_models", allM[MX], ".rds"))
     # ToutResDev_crossV_A <- apply(t(1:length(Output_models)), 2, function(x)
     #  Output_models[[x]][4,,])
+    # browser()
     ToutResDev_crossV_A <- purrr::map(Output_models, ~.[4,,])
     ToutResDev_crossV_A2 <- do.call(rbind, ToutResDev_crossV_A)
     ToutResDev_crossV <- rbind(ToutResDev_crossV, ToutResDev_crossV_A2)
@@ -586,9 +587,9 @@ model_select <- function(saveWD, new.data, Num = NULL, model = NULL,
 
   new.data.orig <- new.data
   if (is(new.data)[1] == "SpatialPointsDataFrame") {
-    new.data <- dplyr::as.tbl(new.data@data)
+    new.data <- tibble::as_tibble(new.data@data)
   } else {
-    new.data <- dplyr::as.tbl(new.data)
+    new.data <- tibble::as_tibble(new.data)
   }
 
   # If Num is not specified, choose the first best model
@@ -769,11 +770,11 @@ model_select <- function(saveWD, new.data, Num = NULL, model = NULL,
 #' @param n.ech.marginal 5000 by default. Number of random samples for marginals
 #' estimations.
 #'
-#' @importFrom magrittr "%>%"
 #' @importFrom sp spTransform CRS
 #' @import graphics
 #' @importFrom grDevices dev.off png heat.colors colorRampPalette
 #' @importFrom ggplot2 ggplot geom_pointrange aes facet_wrap ggsave
+#' @importFrom ggplot2 labs
 #' @importFrom yarrr pirateplot
 #' @import stats
 #'
@@ -834,9 +835,9 @@ ModelResults <- function(saveWD, plot, Num = NULL, model = NULL,
     Y_data_sample_lcc <- NA
   }
   if (is(Allinfo_all$data)[1] == "SpatialPointsDataFrame") {
-    Y_data_sample <- dplyr::as.tbl(Allinfo_all$data@data)
+    Y_data_sample <- tibble::as_tibble(Allinfo_all$data@data)
   } else {
-    Y_data_sample <- dplyr::as.tbl(Allinfo_all$data)
+    Y_data_sample <- tibble::as_tibble(Allinfo_all$data)
   }
   # Precision to keep for predictions
   prec.data <- prec_data(Y_data_sample$dataY) - 1
@@ -863,7 +864,7 @@ ModelResults <- function(saveWD, plot, Num = NULL, model = NULL,
   # Find the prediction closest to mean average prediction ----
   # This is to build some marginal distributions of covariates
   datapred.tbl <- model_selected$new.data[,all.vars(stats::as.formula(modelX))] %>%
-    dplyr::as.tbl() %>%
+    tibble::as_tibble() %>%
     dplyr::mutate_at(dplyr::vars(-dataY), .funs = function(x) {
       if (is.numeric(x)) {
         minmax <- stats::quantile(x, probs = c(0.1, 0.9), na.rm = TRUE)
@@ -881,7 +882,7 @@ ModelResults <- function(saveWD, plot, Num = NULL, model = NULL,
   CovForMeanPred <- datapred.tbl[1,]
 
   readr::write_rds(CovForMeanPred,
-                   path = paste0(saveWD, "/", basename(saveWD),
+                   paste0(saveWD, "/", basename(saveWD),
                                  "-CovForMeanPred_", model_selected$Num, ".rds"))
 
   # Deviance explained ----
@@ -1596,7 +1597,7 @@ ModelResults <- function(saveWD, plot, Num = NULL, model = NULL,
     res %>%
       dplyr::mutate_if(is.factor, as.character)
   })
-  AllFact.simple.tbl <- dplyr::as.tbl(
+  AllFact.simple.tbl <- tibble::as_tibble(
     do.call(dplyr::bind_rows, AllFact.simple)) %>%
     dplyr::bind_cols(data.frame(predict(modelX, newdata = .,
                                  type = "response", se.fit = TRUE))) %>%
@@ -1610,7 +1611,7 @@ ModelResults <- function(saveWD, plot, Num = NULL, model = NULL,
                  # browser()
                  AllFact.simple.tbl %>%
                  dplyr::filter(cov2 == .x) %>%
-                 mutate(cov.val = ifelse(type == "numeric",
+                 dplyr::mutate(cov.val = ifelse(type == "numeric",
                                           as.numeric(as.character(cov.val)),
                                           cov.val)) %>%
                  ggplot() +

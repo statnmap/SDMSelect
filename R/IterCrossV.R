@@ -860,10 +860,10 @@ findBestModel <- function(x, datatype, corSpearman,
       }
       # Remove duplicates in n_keep. Only possible if Interaction is TRUE
       if (nb == 1) {
-        n_keep[[nb]] <- t(t(test_factors_all_nb[Line_keep, ]))
+        n_keep[[nb]] <- t(t(test_factors_all_nb[Line_keep,]))
       } else {
         if (length(Line_keep) == 1) {
-          n_keep[[nb]] <- t(test_factors_all_nb[Line_keep, ])
+          n_keep[[nb]] <- t(test_factors_all_nb[Line_keep,])
         } else {
           n_keep_A <- test_factors_all_nb[Line_keep, ]
           noDup <- which(
@@ -872,7 +872,7 @@ findBestModel <- function(x, datatype, corSpearman,
                     function(x) paste(x, collapse = "-"))
             ))
           Line_keep <- Line_keep[noDup]
-          n_keep[[nb]] <- n_keep_A[noDup,]
+          n_keep[[nb]] <- n_keep_A[noDup,, drop = FALSE]
         }
       }
       if (is.null(nrow(n_keep[[nb]]))) {
@@ -893,7 +893,7 @@ findBestModel <- function(x, datatype, corSpearman,
             ]))
         } else {
           n_keep_B <- test_factors_all_nb[
-            best.distri$orderModels[allnoDup], ]
+            best.distri$orderModels[allnoDup],]
         }
         n_keep[[nb]] <- n_keep_B
       }
@@ -932,7 +932,10 @@ findBestModel <- function(x, datatype, corSpearman,
       }
       test_models[[nb]] <- as.matrix(as.data.frame(test_models[[nb]][Line_keep,]))
       test_factors_all[[nb]] <- as.matrix(data.frame(test_factors_all[[nb]][Line_keep,]))
-      Output_models[[nb]] <- Output_models[[nb]][,Line_keep,]
+
+      # if (n_datac == 3 & nb == 5) {browser()}
+
+      Output_models[[nb]] <- Output_models[[nb]][,Line_keep,, drop = FALSE]
       if (grepl("PA|TweedGLM", modeltype)) {
         BestTHD_crossV[[nb]] <- BestTHD_crossV[[nb]][Line_keep]
         DiffSelSpeTHD_crossV[[nb]] <- DiffSelSpeTHD_crossV[[nb]][Line_keep,]

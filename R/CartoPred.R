@@ -79,9 +79,9 @@ Map_predict <- function(object, saveWD, mask = NULL, Num = NULL,
     Y_data_sample_lcc <- NA
   }
   if (is(Allinfo_all$data)[1] == "SpatialPointsDataFrame") {
-    Y_data_sample <- dplyr::as.tbl(Allinfo_all$data@data)
+    Y_data_sample <- tibble::as_tibble(Allinfo_all$data@data)
   } else {
-    Y_data_sample <- dplyr::as.tbl(Allinfo_all$data)
+    Y_data_sample <- tibble::as_tibble(Allinfo_all$data)
   }
 
   # Define the model on which to produce outputs

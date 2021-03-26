@@ -3,7 +3,7 @@
 #'
 #' See \code{cartomisc::\link[cartomisc]{gplot_data}} for details.
 #'
-#' @inheritParams cartomisc::gplot_data
+#' @name gplot_data
 #' @importFrom cartomisc gplot_data
 #' @export
-"gplot_data"
+NULL

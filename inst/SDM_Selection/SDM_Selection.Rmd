@@ -195,7 +195,7 @@ Model selection was realised separately for each distribution tested. The exact 
 # Order models and find the bests
 BestModels <- ModelOrder(saveWD = tmpdir, plot = TRUE)
 # Save in /inst for vignettes
-readr::write_rds(BestModels, path = "BestModels.rds")
+readr::write_rds(BestModels, "BestModels.rds")
 ```
 
 This results in figures showing the distribution of the goodness of fit (here AUC) issued from cross-validation for each model. This allows to see that predictive power of some models is not very different than the best one. Coloured boxplots are those of AUC distribution not statistically different from the best one. Models are ranged by family chosen and number of covariates added during the forward stepwise procedure.  
@@ -290,7 +290,7 @@ pred.r <- Map_predict(object = covariates, saveWD = tmpdir, Num = Num.Best)
 writeRaster(pred.r, filename = "predr.tif", overwrite = TRUE)
 # Geotif does not save raster names
 predrNames <- names(pred.r)
-readr::write_rds(predrNames, path = "predrNames.rds")
+readr::write_rds(predrNames, "predrNames.rds")
 ```
 
 The first output of interest is the first layer `resp.fit` of the `RasterStack`. Here, the predicted probability of presence. *`SDMSelect` is provided with `gplot_data`, a modified version of `rasterVis::gplot` which allows to prepare a (part of) raster data for ggplot visualisation instead of visualizing it directly. Maybe useful in some situations.*
@@ -345,7 +345,7 @@ model_selected <- model_select(
   Num = Num.Best)
 BestThd <- model_selected$Seuil
 # To add in /inst for vignettes
-readr::write_rds(BestThd, path = "BestThd.rds")
+readr::write_rds(BestThd, "BestThd.rds")
 ```
 
 A better representation of the probabilities of presence should be with a double colour gradient, centred on the best threshold value (thd = `r BestThd`).  

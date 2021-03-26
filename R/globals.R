@@ -3,7 +3,7 @@
 utils::globalVariables(c(".", "pred", "na.row", "pred.absmean", "cov.val",
                          "fit", "se.fit", "dataY"))
 # Param_corr
-utils::globalVariables(c("rowname", "Corr", "Var1_num", "Var2_num"))
+utils::globalVariables(c("term", "Corr", "Var1_num", "Var2_num"))
 # Fig_split
 utils::globalVariables(c("ntot", "diff.x", "diff.sum"))
 

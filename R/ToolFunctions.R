@@ -100,7 +100,6 @@ CreateExtent <- function(x, saveWD) {
 #' 100*100 is the maximum window. It is surely too big for a screen, but who
 #' knows what you do with this function... Be sure your window is big enough !
 #'
-#' @importFrom magrittr '%>%'
 #'
 #' @return
 #' nrow

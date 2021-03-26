@@ -173,7 +173,7 @@ fit_model <- function(x, model, fixXI,
         covar.col = c(1:(ncol(x_lcc)))[-which(names(x_lcc) == "dataY")]
       )
       # Modification to make it work with poly()
-      datageo$covariate <- dplyr::as.tbl(datageo$covariate)
+      datageo$covariate <- tibble::as_tibble(datageo$covariate)
       try(data.v <- geoR::variog(datageo, max.dist = MaxDist, trend = as.formula(model),
                            breaks = seq(0, MaxDist, length = 20), lambda = lambda, messages = FALSE),
           silent = TRUE)
@@ -228,7 +228,7 @@ AIC_indices <- function(x, Y_data_sample, Models_tmp_nb, modeltype, # libfile = 
   }
 
   # data.frame has been modified so that poly is not anymore usable ------------
-  Y_data_sample <- dplyr::as.tbl(as.data.frame(Y_data_sample))
+  Y_data_sample <- tibble::as_tibble(as.data.frame(Y_data_sample))
 
   formula_tested <- as.character(Models_tmp_nb[x, 1])
   res <- NA
@@ -325,8 +325,8 @@ crossV_indices <- function(MC, formulas, modeltype, saveAlea, Y_data_sample,
   Y_data_crossV_dataY <- Y_data_crossV$dataY - Sup
 
   # data.frame has been modified so that poly is not anymore usable ------------
-  Y_data_crossV <- dplyr::as.tbl(as.data.frame(Y_data_crossV))
-  Y_data_adjust <- dplyr::as.tbl(as.data.frame(Y_data_adjust))
+  Y_data_crossV <- tibble::as_tibble(as.data.frame(Y_data_crossV))
+  Y_data_adjust <- tibble::as_tibble(as.data.frame(Y_data_adjust))
 
   ## Not sure if this is the right calculation but at least no errors with zeros
   # BTW, model selection is based on RMSE
@@ -425,13 +425,13 @@ crossV_indices <- function(MC, formulas, modeltype, saveAlea, Y_data_sample,
             data.col = which(names(Y_data_sample_lcc) == "dataY"),
             covar.col = 4:(ncol(Y_data_sample_lcc)))
           # Modification to make it work with poly() ---------------------------------
-          datageo_fit$covariate <- dplyr::as.tbl(datageo_fit$covariate)
+          datageo_fit$covariate <- tibble::as_tibble(datageo_fit$covariate)
           datageo_valid <- geoR::as.geodata(
             Y_data_sample_lcc[crossV, ],
             data.col = which(names(Y_data_sample_lcc) == "dataY"),
             covar.col = 4:(ncol(Y_data_sample_lcc)))
           # Modification to make it work with poly() ---------------------------------
-          datageo_valid$covariate <- dplyr::as.tbl(datageo_valid$covariate)
+          datageo_valid$covariate <- tibble::as_tibble(datageo_valid$covariate)
 
           try(trend.sim <- geoR::trend.spatial(as.formula(formula_tested), datageo_fit), silent = TRUE)
           try(trend.pred <- geoR::trend.spatial(as.formula(formula_tested), datageo_valid), silent = TRUE)
