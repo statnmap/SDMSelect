@@ -17,7 +17,7 @@ If you want to use this library for your research, I would be happy to collabora
 
 VignetteBuilder: knitr
 
-- Change all save(.RData) to write_rds(.rds)
+- Add unit tests
 - Modify to work with library {sf}
 - Try change `parApply` with {furrr}
 - Propose maps of average covariates effect
@@ -25,5 +25,5 @@ VignetteBuilder: knitr
 - Add gradient boost model (gbm) and/or randomForest in a separate function <https://datascienceplus.com/gradient-boosting-in-r> and/or library caret: Look at <http://rsangole.netlify.com/post/pur-r-ify-your-carets/>
 - Centering covariates for better calculations. Be careful when plotting afterwards.
 - If multiple factor covariates, verify the size of validation dataset. Folds are created so that if not all levels are represented in the fitting dataset, the function add in the missing levels. But if there are many levels not represented, this may conduct to a fitting dataset equal to original dataset, and thus no validation dataset.
-- Re-integrate personal library `GeoDist` for co-kriging.
+- Re-integrate personal library `{GeoDist}` for co-kriging: https://github.com/statnmap/GeoDist/
 - Add a function for model averaging of all models not statistically worse than the best one.

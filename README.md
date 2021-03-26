@@ -1,9 +1,10 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- badges: start -->
 
-[![Travis-CI Build
-Status](https://travis-ci.org/statnmap/SDMSelect.svg?branch=master)](https://travis-ci.org/statnmap/SDMSelect)
+[![R-CMD-check](https://github.com/statnmap/SDMSelect/workflows/R-CMD-check/badge.svg)](https://github.com/statnmap/SDMSelect/actions)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3256536.svg)](https://doi.org/10.5281/zenodo.3256536)
+<!-- badges: end -->
 
 # Summary
 
@@ -11,10 +12,16 @@ The R package **SDMSelect** is for species distribution modeling (SDM).
 It uses a forward model selection with cross-validation to select
 covariates and model specifications that allow for best predictions.
 This selection is not specifically for SDM. Results can then be used for
-mapping predicted species distribution and uncertainty of
-prediction.
+mapping predicted species distribution and uncertainty of prediction.
 
-<img src="https://raw.githubusercontent.com/statnmap/SDMSelect/master/img/ProbaOfPresence.png" title="Distribution of probability of presence with SDMSelect library on Rstat" alt="Distribution of probability of presence with SDMSelect library on Rstat" width="50%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+
+<img src="https://raw.githubusercontent.com/statnmap/SDMSelect/master/img/ProbaOfPresence.png" alt="Distribution of probability of presence with SDMSelect library on Rstat" width="50%" />
+<p class="caption">
+Distribution of probability of presence with SDMSelect library on Rstat
+</p>
+
+</div>
 
 # How to cite
 
@@ -29,8 +36,8 @@ built-in command `citation("SDMSelect")`:
 
 # Download and Install
 
-Before installing `SDMSelect`, be sure to have updated versions of `mgcv
-(>= 1.8-19)`, `dplyr (>= 0.7)` and `corrplot (>= 0.82)`.
+Before installing `SDMSelect`, be sure to have updated versions of
+`mgcv (>= 1.8-19)`, `dplyr (>= 0.7)` and `corrplot (>= 0.82)`.
 
 To download the development version of the `SDMSelect` package, type the
 following at the R command line:
@@ -40,8 +47,7 @@ install.packages("devtools")
 devtools::install_github("statnmap/SDMSelect")
 ```
 
-Build with
-vignettes:
+Build with vignettes:
 
 ``` r
 devtools::install_github("statnmap/SDMSelect", build_opts = c("--no-resave-data", "--no-manual"))
@@ -60,28 +66,27 @@ Linux. Look how to install `proj4`, `geos` and `gdal` on your system.
 
 ## Issues
 
-  - `namespace 'mgcv' 1.xx is being loaded, but >= 1.8.19 is required`.
+-   `namespace 'mgcv' 1.xx is being loaded, but >= 1.8.19 is required`.
     This means that you need to update `mgcv` library:
     `install.packages("mgcv", force = TRUE)`.
-  - Error when building vignette: `win.asp is not graphical parameter`.
+-   Error when building vignette: `win.asp is not graphical parameter`.
     This means you did not install the last version of `corrplot`:
     `install.packages("corrplot", force = TRUE)`  
-  - `there is no package called 'dismo' ... cannot create a RasterLayer
-    object from this file (file does not exist)`: install library
-    `dismo`: `install.packages("dismo")`
+-   `there is no package called 'dismo' ... cannot create a RasterLayer object from this file (file does not exist)`:
+    install library `dismo`: `install.packages("dismo")`
 
 # Examples
 
 Vignettes have been created to show how to use the library for covariate
 selection on simple cases (`vignette(package = "SDMSelect")`).
 
-  - First case is covariate selection procedure for classical dataset
+-   First case is covariate selection procedure for classical dataset
     (not geographical data, nor species distribution data):
     `vignette("Covar_Selection", package = "SDMSelect")`. See the
     vignette in the {pkgdown} website:
     <https://statnmap.github.io/SDMSelect/articles/Covar_Selection.html>
 
-  - The second case is for spatial data of species occurence to produce
+-   The second case is for spatial data of species occurence to produce
     predicted species distribution maps and maps of uncertainties:
     `vignette("SDM_Selection", package = "SDMSelect")`. See the vignette
     in the {pkgdown} website:
@@ -91,12 +96,12 @@ selection on simple cases (`vignette(package = "SDMSelect")`).
 model selection is not run during vignette building. However, code in
 the vignettes can be run on your own computer and should return the same
 outputs. You can also find the path of the complete vignettes to be run
-on your computer with: `system.file("Covar_Selection",
-"Covar_Selection.Rmd", package = "SDMSelect")` and
-`system.file("SDM_Selection", "SDM_Selection.Rmd", package =
-"SDMSelect")`. Open and click `knit` button if you are on Rstudio. (This
-may require 5-10 minutes depending on the number of cores of your
-system).*  
+on your computer with:
+`system.file("Covar_Selection", "Covar_Selection.Rmd", package = "SDMSelect")`
+and
+`system.file("SDM_Selection", "SDM_Selection.Rmd", package = "SDMSelect")`.
+Open and click `knit` button if you are on Rstudio. (This may require
+5-10 minutes depending on the number of cores of your system).*  
 Main functions are listed in the library general help: `?SDMSelect`.
 
 # Description
@@ -140,10 +145,18 @@ distributions of model `2` to `n` are then statistically compared to the
 best model. Models not statistically worse than the best model are
 retained for the next step. After the stepwise procedure, the best model
 among all is selected with the same method. Models not statistically
-worse are also
-retained.
+worse are also retained.
 
-<img src="https://raw.githubusercontent.com/statnmap/SDMSelect/master/img/Help_for_model_Choice.png" title="Models and covariates in models not statistically different from the best one. Covariates are ordered based on occurrence in the models selected." alt="Models and covariates in models not statistically different from the best one. Covariates are ordered based on occurrence in the models selected." width="80%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+
+<img src="https://raw.githubusercontent.com/statnmap/SDMSelect/master/img/Help_for_model_Choice.png" alt="Models and covariates in models not statistically different from the best one. Covariates are ordered based on occurrence in the models selected." width="80%" />
+<p class="caption">
+Models and covariates in models not statistically different from the
+best one. Covariates are ordered based on occurrence in the models
+selected.
+</p>
+
+</div>
 
 ## Outputs
 
@@ -160,22 +173,44 @@ of covariates). For spatial data, maps of prediction can be produced.
 A particular attention has been given to assessment of uncertainty. Each
 prediction of a model is given with a standard error associated. This
 standard errors have been used to estimate possible minimum and maximum
-distributions of species (through estimations of
-quantiles).
+distributions of species (through estimations of quantiles).
 
-<img src="https://raw.githubusercontent.com/statnmap/SDMSelect/master/img/MinMaxProbaOfPresence.png" title="Distribution of minimum (quantile 5%) and maximum (quantile 95%) of probabilities of presence with SDMSelect library on Rstat" alt="Distribution of minimum (quantile 5%) and maximum (quantile 95%) of probabilities of presence with SDMSelect library on Rstat" width="80%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+
+<img src="https://raw.githubusercontent.com/statnmap/SDMSelect/master/img/MinMaxProbaOfPresence.png" alt="Distribution of minimum (quantile 5%) and maximum (quantile 95%) of probabilities of presence with SDMSelect library on Rstat" width="80%" />
+<p class="caption">
+Distribution of minimum (quantile 5%) and maximum (quantile 95%) of
+probabilities of presence with SDMSelect library on Rstat
+</p>
+
+</div>
 
 Concerning presence-absence data, the estimation of probability of
 presence is not enough. The balance between presences and absences in
 data may conduct to biased predictions. The best threshold value to
 classify a probability of presence in presence or absence is here
 explored in more details. Map of probability to be over the threshold
-value is
-calculated.
+value is calculated.
 
-<img src="https://raw.githubusercontent.com/statnmap/SDMSelect/master/img/CompObsPred.png" title="Comparison of predictions against observations in a presence-absence data model and thresholds values with SDMSelect library on Rstat" alt="Comparison of predictions against observations in a presence-absence data model and thresholds values with SDMSelect library on Rstat" width="50%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
 
-<img src="https://raw.githubusercontent.com/statnmap/SDMSelect/master/img/ProbaOverThd.png" title="Distribution of probabilities to be over the best threshold value separating presences from absences with SDMSelect library on Rstat" alt="Distribution of probabilities to be over the best threshold value separating presences from absences with SDMSelect library on Rstat" width="50%" style="display: block; margin: auto;" />
+<img src="https://raw.githubusercontent.com/statnmap/SDMSelect/master/img/CompObsPred.png" alt="Comparison of predictions against observations in a presence-absence data model and thresholds values with SDMSelect library on Rstat" width="50%" />
+<p class="caption">
+Comparison of predictions against observations in a presence-absence
+data model and thresholds values with SDMSelect library on Rstat
+</p>
+
+</div>
+
+<div class="figure" style="text-align: center">
+
+<img src="https://raw.githubusercontent.com/statnmap/SDMSelect/master/img/ProbaOverThd.png" alt="Distribution of probabilities to be over the best threshold value separating presences from absences with SDMSelect library on Rstat" width="50%" />
+<p class="caption">
+Distribution of probabilities to be over the best threshold value
+separating presences from absences with SDMSelect library on Rstat
+</p>
+
+</div>
 
 ## Caution
 

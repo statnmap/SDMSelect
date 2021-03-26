@@ -7,6 +7,11 @@ usethis::use_build_ignore("inst/SDM_Selection/SDM_Selection.html")
 usethis::use_git_ignore("inst/Covar_Selection/Covar_Selection.html")
 usethis::use_git_ignore("inst/SDM_Selection/SDM_Selection.html")
 
+# CI
+usethis::use_github_action_check_standard()
+usethis::use_github_action("pkgdown")
+
+
 # Depends: GlobalOptions, R (>= 3.3.0)
 
 # Build vignettes

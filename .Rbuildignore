@@ -11,3 +11,4 @@ vignettes/*.png
 docs
 ^doc$
 ^Meta$
+^\.github$
