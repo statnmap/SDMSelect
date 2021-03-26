@@ -56,9 +56,15 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
+      - name: Install X11 dependencies on MacOS
+        if: runner.os == 'macOS'
+        run: |
+          brew cask install xquartz
+
       - name: Install system dependencies
         if: runner.os == 'Linux'
         run: |
+          apt-get update -qq && apt-get install -y libgdal-dev libproj-dev libgeos-dev libudunits2-dev libnode-dev libcairo2-dev libnetcdf-dev libharfbuzz-dev libfribidi-dev
           while read -r cmd
           do
             eval sudo $cmd
